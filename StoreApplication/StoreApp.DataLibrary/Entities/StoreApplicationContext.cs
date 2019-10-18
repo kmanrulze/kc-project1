@@ -68,13 +68,13 @@ namespace StoreApp.DataLibrary.Entities
                     .WithMany(p => p.InventoryProduct)
                     .HasForeignKey(d => d.ProductTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Inventory__Produ__07E124C1");
+                    .HasConstraintName("FK__Inventory__Produ__6EAB62A3");
 
                 entity.HasOne(d => d.StoreNumberNavigation)
                     .WithMany(p => p.InventoryProduct)
                     .HasForeignKey(d => d.StoreNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Inventory__Store__06ED0088");
+                    .HasConstraintName("FK__Inventory__Store__6DB73E6A");
             });
 
             modelBuilder.Entity<Manager>(entity =>
@@ -82,7 +82,7 @@ namespace StoreApp.DataLibrary.Entities
                 entity.ToTable("Manager", "app");
 
                 entity.HasIndex(e => e.StoreNumber)
-                    .HasName("UQ__Manager__EFFC8D563FD18150")
+                    .HasName("UQ__Manager__EFFC8D561152403C")
                     .IsUnique();
 
                 entity.Property(e => e.ManagerId).HasColumnName("ManagerID");
@@ -99,7 +99,7 @@ namespace StoreApp.DataLibrary.Entities
                     .WithOne(p => p.Manager)
                     .HasForeignKey<Manager>(d => d.StoreNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Manager__StoreNu__1352D76D");
+                    .HasConstraintName("FK__Manager__StoreNu__7A1D154F");
             });
 
             modelBuilder.Entity<OrderProduct>(entity =>
@@ -116,25 +116,19 @@ namespace StoreApp.DataLibrary.Entities
                     .WithMany(p => p.OrderProduct)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Order__0D99FE17");
+                    .HasConstraintName("FK__OrderProd__Order__75586032");
 
                 entity.HasOne(d => d.ProductType)
                     .WithMany(p => p.OrderProduct)
                     .HasForeignKey(d => d.ProductTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Produ__0F824689");
-
-                entity.HasOne(d => d.StoreNumberNavigation)
-                    .WithMany(p => p.OrderProduct)
-                    .HasForeignKey(d => d.StoreNumber)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Store__0E8E2250");
+                    .HasConstraintName("FK__OrderProd__Produ__764C846B");
             });
 
             modelBuilder.Entity<Orders>(entity =>
             {
                 entity.HasKey(e => e.OrderId)
-                    .HasName("PK__Orders__C3905BAF1CC33A25");
+                    .HasName("PK__Orders__C3905BAFCB43D37B");
 
                 entity.ToTable("Orders", "app");
 
@@ -146,13 +140,19 @@ namespace StoreApp.DataLibrary.Entities
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Orders__Customer__0ABD916C");
+                    .HasConstraintName("FK__Orders__Customer__7187CF4E");
+
+                entity.HasOne(d => d.StoreNumberNavigation)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.StoreNumber)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Orders__StoreNum__727BF387");
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasKey(e => e.ProductTypeId)
-                    .HasName("PK__Product__A1312F4E5B0E3696");
+                    .HasName("PK__Product__A1312F4E35FEFD04");
 
                 entity.ToTable("Product", "app");
 
@@ -166,7 +166,7 @@ namespace StoreApp.DataLibrary.Entities
             modelBuilder.Entity<Store>(entity =>
             {
                 entity.HasKey(e => e.StoreNumber)
-                    .HasName("PK__Store__EFFC8D5774D2B530");
+                    .HasName("PK__Store__EFFC8D57D8E7BCB5");
 
                 entity.ToTable("Store", "app");
 

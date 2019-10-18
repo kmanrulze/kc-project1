@@ -12,8 +12,10 @@ namespace StoreApp.DataLibrary.Entities
 
         public int OrderId { get; set; }
         public int CustomerId { get; set; }
+        public int StoreNumber { get; set; }
 
         public virtual Customer Customer { get; set; }
+        public virtual Store StoreNumberNavigation { get; set; }
         public virtual ICollection<OrderProduct> OrderProduct { get; set; }
     }
 }

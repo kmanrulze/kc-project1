@@ -8,7 +8,7 @@ namespace StoreApp.DataLibrary.Entities
         public Store()
         {
             InventoryProduct = new HashSet<InventoryProduct>();
-            OrderProduct = new HashSet<OrderProduct>();
+            Orders = new HashSet<Orders>();
         }
 
         public int StoreNumber { get; set; }
@@ -19,6 +19,6 @@ namespace StoreApp.DataLibrary.Entities
 
         public virtual Manager Manager { get; set; }
         public virtual ICollection<InventoryProduct> InventoryProduct { get; set; }
-        public virtual ICollection<OrderProduct> OrderProduct { get; set; }
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }
