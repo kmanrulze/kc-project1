@@ -6,14 +6,14 @@ using StoreApp.DataLibrary.Entities;
 
 namespace StoreApp.DataLibrary.Handlers
 {
-    public class ParseHandler
+    public static class ParseHandler
     {
         /// <summary>
         /// Converts a Entity/Context Customer into a Business Logic Customer
         /// </summary>
         /// <param name="CTXCustomer"></param>
         /// <returns></returns>
-        public StoreApp.BusinessLogic.Objects.Customer ContextCustomerToLogicCustomer(StoreApp.DataLibrary.Entities.Customer CTXCustomer)
+        public static StoreApp.BusinessLogic.Objects.Customer ContextCustomerToLogicCustomer(StoreApp.DataLibrary.Entities.Customer CTXCustomer)
         {
             StoreApp.BusinessLogic.Objects.Customer BLCustomer = new BusinessLogic.Objects.Customer();
 
@@ -36,7 +36,7 @@ namespace StoreApp.DataLibrary.Handlers
         /// <param name="orderID"></param>
         /// <param name="BLProd"></param>
         /// <returns></returns>
-        public OrderProduct LogicProductToContextOrderProduct(BusinessLogic.Objects.Order BLOrder, int orderID, BusinessLogic.Objects.Product BLProd)
+        public static OrderProduct LogicProductToContextOrderProduct(BusinessLogic.Objects.Order BLOrder, int orderID, BusinessLogic.Objects.Product BLProd)
         {
             Entities.OrderProduct CTXOrdProd = new OrderProduct();
 
@@ -52,7 +52,7 @@ namespace StoreApp.DataLibrary.Handlers
         /// </summary>
         /// <param name="CTXman"></param>
         /// <returns></returns>
-        public BusinessLogic.Objects.Manager ContextManagerToLogicManager(Entities.Manager CTXman)
+        public static BusinessLogic.Objects.Manager ContextManagerToLogicManager(Entities.Manager CTXman)
         {
             StoreApp.BusinessLogic.Objects.Manager BLMan = new BusinessLogic.Objects.Manager();
 
@@ -60,6 +60,7 @@ namespace StoreApp.DataLibrary.Handlers
             BLMan.firstName = CTXman.FirstName;
             BLMan.lastName = CTXman.LastName;
             BLMan.storeNumberManaged = CTXman.StoreNumber;
+
 
             return BLMan;
         }
@@ -69,7 +70,7 @@ namespace StoreApp.DataLibrary.Handlers
         /// </summary>
         /// <param name="BLCustomer"></param>
         /// <returns></returns>
-        public Entities.Customer LogicCustomerToContextCustomer(BusinessLogic.Objects.Customer BLCustomer)
+        public static Entities.Customer LogicCustomerToContextCustomer(BusinessLogic.Objects.Customer BLCustomer)
         {
             Entities.Customer CTXCustomer= new Entities.Customer();
 
@@ -87,7 +88,7 @@ namespace StoreApp.DataLibrary.Handlers
         /// </summary>
         /// <param name="CTXStore"></param>
         /// <returns></returns>
-        public BusinessLogic.Objects.Store ContextStoreToLogicStore(Entities.Store CTXStore)
+        public static BusinessLogic.Objects.Store ContextStoreToLogicStore(Entities.Store CTXStore)
         {
             StoreApp.BusinessLogic.Objects.Store BLStore = new BusinessLogic.Objects.Store();
 
@@ -105,7 +106,7 @@ namespace StoreApp.DataLibrary.Handlers
         /// </summary>
         /// <param name="BLorder"></param>
         /// <returns></returns>
-        public Entities.Orders LogicOrderToContextOrder(StoreApp.BusinessLogic.Objects.Order BLorder)
+        public static Entities.Orders LogicOrderToContextOrder(StoreApp.BusinessLogic.Objects.Order BLorder)
         {
             Orders CTXOrder = new Orders();
 
@@ -119,7 +120,7 @@ namespace StoreApp.DataLibrary.Handlers
         /// </summary>
         /// <param name="CTXOrder"></param>
         /// <returns></returns>
-        public Order ContextOrderToLogicOrder(Entities.Orders CTXOrder)
+        public static Order ContextOrderToLogicOrder(Entities.Orders CTXOrder)
         {
             BusinessLogic.Objects.Order BLOrder = new Order();
             BLOrder.customer.customerID = CTXOrder.CustomerId;
@@ -133,7 +134,7 @@ namespace StoreApp.DataLibrary.Handlers
         /// </summary>
         /// <param name="CTXProd"></param>
         /// <returns></returns>
-        public BusinessLogic.Objects.Product ContextInventoryProductToLogicProduct(InventoryProduct CTXProd)
+        public static BusinessLogic.Objects.Product ContextInventoryProductToLogicProduct(InventoryProduct CTXProd)
         {
             BusinessLogic.Objects.Product BLProd = new BusinessLogic.Objects.Product();
 
@@ -148,7 +149,7 @@ namespace StoreApp.DataLibrary.Handlers
         /// </summary>
         /// <param name="CTXProduct"></param>
         /// <returns></returns>
-        public BusinessLogic.Objects.Product ContextOrderProductToLogicProduct(OrderProduct CTXProduct)
+        public static BusinessLogic.Objects.Product ContextOrderProductToLogicProduct(OrderProduct CTXProduct)
         {
             BusinessLogic.Objects.Product BLProduct = new BusinessLogic.Objects.Product();
 

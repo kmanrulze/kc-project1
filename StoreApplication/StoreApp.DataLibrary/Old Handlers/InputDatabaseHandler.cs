@@ -10,7 +10,6 @@ namespace StoreApp.DataLibrary.Handlers
 {
     public class InputDatabaseHandler
     {
-        private ParseHandler parser = new ParseHandler();
 
         /// <summary>
         /// Inputs an order into the Order table. Does NOT input products.
@@ -22,7 +21,7 @@ namespace StoreApp.DataLibrary.Handlers
 
             try
             {
-                context.Orders.Add(parser.LogicOrderToContextOrder(BLOrder));
+                context.Orders.Add(ParseHandler.LogicOrderToContextOrder(BLOrder));
                 context.SaveChanges();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
@@ -46,7 +45,7 @@ namespace StoreApp.DataLibrary.Handlers
             {
                 foreach (BusinessLogic.Objects.Product BLProd in BLOrder.customerProductList)
                 {
-                    context.OrderProduct.Add(parser.LogicProductToContextOrderProduct(BLOrder, orderID, BLProd));
+                    context.OrderProduct.Add(ParseHandler.LogicProductToContextOrderProduct(BLOrder, orderID, BLProd));
                 }
                 context.SaveChanges();
             }
@@ -68,7 +67,7 @@ namespace StoreApp.DataLibrary.Handlers
 
             try
             {
-                context.Customer.Add(parser.LogicCustomerToContextCustomer(BLCustomer));
+                context.Customer.Add(ParseHandler.LogicCustomerToContextCustomer(BLCustomer));
                 context.SaveChanges();
             }
             catch (Exception e)

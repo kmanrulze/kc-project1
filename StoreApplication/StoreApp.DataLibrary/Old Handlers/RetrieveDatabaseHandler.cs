@@ -1,34 +1,35 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StoreApp.BusinessLogic.Objects;
+﻿using StoreApp.BusinessLogic.Objects;
 using StoreApp.DataLibrary.ConnectionData;
 using StoreApp.DataLibrary.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace StoreApp.DataLibrary.Handlers
 {
     public class RetrieveDatabaseHandler
     {
-        private ParseHandler parser = new ParseHandler();
+        private readonly StoreApplicationContext _context;
+        public RetrieveDatabaseHandler(StoreApplicationContext context)
+        {
+            _context = context;
+        }
 
         /// <summary>
         /// Gets a list of customer data using an inputted customerID and a Database context
         /// </summary>
         /// <param name="customerID"></param>
-        /// <param name="context"></param>
         /// <returns></returns>
-        public StoreApp.BusinessLogic.Objects.Customer GetCustomerDataFromID(int customerID, StoreApplicationContext context)
+        public StoreApp.BusinessLogic.Objects.Customer GetCustomerDataFromID(int customerID)
         {
             //Some code to retrieve a list of customer data
 
             try
             {
-                foreach (Entities.Customer cust in context.Customer)
+                foreach (Entities.Customer cust in _context.Customer)
                 {
                     if (cust.CustomerId == customerID)
                     {
-                        return parser.ContextCustomerToLogicCustomer(cust);
+                        return ParseHandler.ContextCustomerToLogicCustomer(cust);
                     }
                 }
                 return null;
@@ -37,7 +38,7 @@ namespace StoreApp.DataLibrary.Handlers
             {
                 Console.WriteLine("Operation failed: " + e.Message);
                 return null;
-            }            
+            }
         }
 
         /// <summary>
@@ -52,13 +53,12 @@ namespace StoreApp.DataLibrary.Handlers
         /// <summary>
         /// Given a context, it returns all the customer data in the database
         /// </summary>
-        /// <param name="context"></param>
         /// <returns></returns>
-        public List<StoreApp.BusinessLogic.Objects.Customer> GetAllCustomerData(StoreApplicationContext context)
+        public List<StoreApp.BusinessLogic.Objects.Customer> GetAllCustomerData()
         {
             List<StoreApp.BusinessLogic.Objects.Customer> listOfCustomerData = new List<StoreApp.BusinessLogic.Objects.Customer>();
 
-            foreach (StoreApp.DataLibrary.Entities.Customer customerInDB in context.Customer)
+            foreach (StoreApp.DataLibrary.Entities.Customer customerInDB in _context.Customer)
             {
                 StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = new StoreApp.BusinessLogic.Objects.Customer();
 
@@ -72,18 +72,17 @@ namespace StoreApp.DataLibrary.Handlers
         /// Given a manager ID and a database context, returns manager data into a BusinessLibrary manager object
         /// </summary>
         /// <param name="managerID"></param>
-        /// <param name="context"></param>
         /// <returns></returns>
-        public BusinessLogic.Objects.Manager GetManagerDataFromID(int managerID, StoreApplicationContext context)
+        public BusinessLogic.Objects.Manager GetManagerDataFromID(int managerID)
         {
 
             try
             {
-                foreach (StoreApp.DataLibrary.Entities.Manager man in context.Manager)
+                foreach (StoreApp.DataLibrary.Entities.Manager man in _context.Manager)
                 {
                     if (man.ManagerId == managerID)
                     {
-                        return parser.ContextManagerToLogicManager(man);
+                        return ParseHandler.ContextManagerToLogicManager(man);
                     }
                 }
                 return null;
@@ -99,18 +98,17 @@ namespace StoreApp.DataLibrary.Handlers
         /// Gets a business logic version of a store given a store number and a Database context
         /// </summary>
         /// <param name="storeNum"></param>
-        /// <param name="context"></param>
         /// <returns></returns>
-        public BusinessLogic.Objects.Store GetStoreFromStoreNumber(int storeNum, StoreApplicationContext context)
+        public BusinessLogic.Objects.Store GetStoreFromStoreNumber(int storeNum)
         {
             BusinessLogic.Objects.Store BLStore = new BusinessLogic.Objects.Store();
             try
             {
-                foreach (StoreApp.DataLibrary.Entities.Store storeLoc in context.Store)
+                foreach (StoreApp.DataLibrary.Entities.Store storeLoc in _context.Store)
                 {
                     if (storeLoc.StoreNumber == storeNum)
                     {
-                        BLStore = parser.ContextStoreToLogicStore(storeLoc);
+                        BLStore = ParseHandler.ContextStoreToLogicStore(storeLoc);
                     }
                 }
                 return BLStore;
@@ -126,19 +124,18 @@ namespace StoreApp.DataLibrary.Handlers
         /// Gets a list of Business Logic orders under a valid customer ID and a database context
         /// </summary>
         /// <param name="custID"></param>
-        /// <param name="context"></param>
         /// <returns></returns>
-        public List<StoreApp.BusinessLogic.Objects.Order> GetListOfOrdersByCustomerID(int custID, StoreApplicationContext context)
+        public List<StoreApp.BusinessLogic.Objects.Order> GetListOfOrdersByCustomerID(int custID)
         {
             List<Order> listToBeReturned = new List<Order>();
 
             try
             {
-                foreach (Entities.Orders CTXOrder in context.Orders)
+                foreach (Entities.Orders CTXOrder in _context.Orders)
                 {
                     if (CTXOrder.CustomerId == custID)
                     {
-                        listToBeReturned.Add(parser.ContextOrderToLogicOrder(CTXOrder));
+                        listToBeReturned.Add(ParseHandler.ContextOrderToLogicOrder(CTXOrder));
                     }
                 }
                 return listToBeReturned;
@@ -153,12 +150,11 @@ namespace StoreApp.DataLibrary.Handlers
         /// <summary>
         /// Gets the customer ID of a newly created customer
         /// </summary>
-        /// <param name="context"></param>
         /// <returns></returns>
-        public int GetNewCustomerID(StoreApplicationContext context)
+        public int GetNewCustomerID()
         {
             int NewCustID = 0;
-            foreach (Entities.Customer cust in context.Customer)
+            foreach (Entities.Customer cust in _context.Customer)
             {
                 NewCustID = cust.CustomerId;
             }
@@ -169,19 +165,18 @@ namespace StoreApp.DataLibrary.Handlers
         /// Gets the inventory of a store given a store number and a database context
         /// </summary>
         /// <param name="storeNumber"></param>
-        /// <param name="context"></param>
         /// <returns></returns>
-        public Inventory GetStoreInventoryByStoreNumber(int storeNumber, StoreApplicationContext context)
+        public Inventory GetStoreInventoryByStoreNumber(int storeNumber)
         {
             Inventory BLInventory = new Inventory();
             BusinessLogic.Objects.Product BLProduct = new BusinessLogic.Objects.Product();
             try
             {
-                foreach (Entities.InventoryProduct prod in context.InventoryProduct)
+                foreach (Entities.InventoryProduct prod in _context.InventoryProduct)
                 {
                     if (prod.StoreNumber == storeNumber)
                     {
-                        BLProduct = parser.ContextInventoryProductToLogicProduct(prod);
+                        BLProduct = ParseHandler.ContextInventoryProductToLogicProduct(prod);
                         BLInventory.productData.Add(BLProduct);
                         BLProduct = new BusinessLogic.Objects.Product();
                     }
@@ -192,7 +187,7 @@ namespace StoreApp.DataLibrary.Handlers
                 }
                 foreach (BusinessLogic.Objects.Product prod in BLInventory.productData)
                 {
-                    foreach (Entities.Product entProd in context.Product)
+                    foreach (Entities.Product entProd in _context.Product)
                     {
                         if (prod.productTypeID == entProd.ProductTypeId)
                         {
@@ -213,22 +208,21 @@ namespace StoreApp.DataLibrary.Handlers
         /// Gets a list of BusinessLogic products using a BusinessLogic Order and a database context
         /// </summary>
         /// <param name="BLOrder"></param>
-        /// <param name="context"></param>
         /// <returns></returns>
-        public List<BusinessLogic.Objects.Product> GetListOrderProductByOrderID(Order BLOrder, StoreApplicationContext context)
+        public List<BusinessLogic.Objects.Product> GetListOrderProductByOrderID(Order BLOrder)
         {
             List<BusinessLogic.Objects.Product> BLProdList = new List<BusinessLogic.Objects.Product>();
 
-            foreach (Entities.OrderProduct CTXOrdProd in context.OrderProduct)
+            foreach (Entities.OrderProduct CTXOrdProd in _context.OrderProduct)
             {
                 if (CTXOrdProd.OrderId == BLOrder.orderID)
                 {
-                    BLProdList.Add(parser.ContextOrderProductToLogicProduct(CTXOrdProd));
+                    BLProdList.Add(ParseHandler.ContextOrderProductToLogicProduct(CTXOrdProd));
                 }
             }
             foreach (BusinessLogic.Objects.Product BLProd in BLProdList)
             {
-                foreach (Entities.Product CTXProd in context.Product)
+                foreach (Entities.Product CTXProd in _context.Product)
                 {
                     //If the product in the list is equal to a product ID on the product table, parse to fill name
                     if (BLProd.productTypeID == CTXProd.ProductTypeId)
@@ -243,26 +237,25 @@ namespace StoreApp.DataLibrary.Handlers
         /// Gets the information of a business logic store given an orderID that it came from and a database context
         /// </summary>
         /// <param name="orderID"></param>
-        /// <param name="context"></param>
         /// <returns></returns>
-        public BusinessLogic.Objects.Store GetStoreInformationFromOrderNumber (int orderID, StoreApplicationContext context)
+        public BusinessLogic.Objects.Store GetStoreInformationFromOrderNumber(int orderID)
         {
             BusinessLogic.Objects.Store BLStore = new BusinessLogic.Objects.Store();
 
             try
             {
-                foreach (Entities.OrderProduct CTXOrdProd in context.OrderProduct)
+                foreach (Entities.OrderProduct CTXOrdProd in _context.OrderProduct)
                 {
                     if (CTXOrdProd.OrderId == orderID)
                     {
                         BLStore.storeNumber = CTXOrdProd.StoreNumber;
                     }
                 }
-                foreach (Entities.Store CTXStore in context.Store)
+                foreach (Entities.Store CTXStore in _context.Store)
                 {
                     if (CTXStore.StoreNumber == BLStore.storeNumber)
                     {
-                        BLStore = parser.ContextStoreToLogicStore(CTXStore);
+                        BLStore = ParseHandler.ContextStoreToLogicStore(CTXStore);
                     }
                 }
                 return BLStore;
@@ -274,21 +267,21 @@ namespace StoreApp.DataLibrary.Handlers
             }
         }
 
-        public List<Order> GetListOfOrdersFromStoreNumber(int storeNumber, StoreApplicationContext context)
+        public List<Order> GetListOfOrdersFromStoreNumber(int storeNumber)
         {
             List<BusinessLogic.Objects.Order> BLListOrders = new List<Order>();
 
-            foreach (Entities.Orders CTXOrder in context.Orders)
+            foreach (Entities.Orders CTXOrder in _context.Orders)
             {
-                BLListOrders.Add(parser.ContextOrderToLogicOrder(CTXOrder));
+                BLListOrders.Add(ParseHandler.ContextOrderToLogicOrder(CTXOrder));
             }
             foreach (BusinessLogic.Objects.Order BLOrder in BLListOrders)
             {
-                foreach (Entities.OrderProduct CTXOrdProd in context.OrderProduct)
+                foreach (Entities.OrderProduct CTXOrdProd in _context.OrderProduct)
                 {
                     if (BLOrder.orderID == CTXOrdProd.OrderId)
                     {
-                        BLOrder.customerProductList.Add(parser.ContextOrderProductToLogicProduct(CTXOrdProd));
+                        BLOrder.customerProductList.Add(ParseHandler.ContextOrderProductToLogicProduct(CTXOrdProd));
                     }
                 }
             }

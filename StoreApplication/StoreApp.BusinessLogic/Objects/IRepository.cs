@@ -9,6 +9,8 @@ namespace StoreApp.BusinessLogic.Objects
     {
         Task<IEnumerable<Customer>> GetAllCustomersAsync();
 
-        Task AddCustomerAsync();
+        Task AddCustomerAsync(Customer BLCustomer);
+        Task<Manager> GetManagerInformation(int ManagerID);
+        Task<Store> GetStoreInformation(int StoreID);
     }
 }

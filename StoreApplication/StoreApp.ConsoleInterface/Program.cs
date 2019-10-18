@@ -14,9 +14,8 @@ namespace StoreApp.Main
 {
     class Program
     {
-        public static RetrieveDatabaseHandler DBRHandler = new RetrieveDatabaseHandler();
-        public static InputDatabaseHandler DBIHandler = new InputDatabaseHandler();
-        private static readonly ILogger storeLogger = LogManager.GetCurrentClassLogger();
+        public static RetrieveDatabaseHandler DBRHandler;
+        public static InputDatabaseHandler DBIHandler;
         static void Main(string[] args)
         {
 
@@ -49,12 +48,15 @@ namespace StoreApp.Main
 
             //DB initialization
 
-            string connectionString = DBRHandler.GetConnectionString();
             DbContextOptions<StoreApplicationContext> options = new DbContextOptionsBuilder<StoreApplicationContext>()
-                .UseSqlServer(connectionString)
+                .UseSqlServer(StoreApp.DataLibrary.ConnectionData.Secret.connectionString)
                 .Options;
 
             using var context = new StoreApplicationContext(options);
+
+            DBRHandler = new RetrieveDatabaseHandler(context);
+
+
             while (whileInMenu)
             {
                 string managerIDInput;
@@ -112,8 +114,8 @@ namespace StoreApp.Main
 
                                 try
                                 {
-                                    retrievedManager = DBRHandler.GetManagerDataFromID(managerID, context);
-                                    retrievedStore = DBRHandler.GetStoreFromStoreNumber(retrievedManager.storeNumberManaged, context);
+                                    retrievedManager = DBRHandler.GetManagerDataFromID(managerID);
+                                    retrievedStore = DBRHandler.GetStoreFromStoreNumber(retrievedManager.storeNumberManaged);
 
                                     Console.WriteLine("Welcome back, " + retrievedManager.firstName + " " + retrievedManager.lastName + "!\nManager of Store Number: " + retrievedManager.storeNumberManaged + "\n");
                                     menuSwitch = 7;
@@ -176,7 +178,7 @@ namespace StoreApp.Main
 
                                 try
                                 {
-                                    retrievedCustomer = DBRHandler.GetCustomerDataFromID(customerID, context);
+                                    retrievedCustomer = DBRHandler.GetCustomerDataFromID(customerID);
                                     Console.WriteLine("Welcome back, " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName + "! What can we do for you today?");
                                     menuSwitch = 6;
                                     whileInSecondaryMenu = false;
@@ -233,11 +235,11 @@ namespace StoreApp.Main
                                     Console.WriteLine("Adding profile to database. . .\n");
                                     DBIHandler.AddNewCustomerData(newCust, context);
                                     Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!\n");
-                                    int newID = DBRHandler.GetNewCustomerID(context);  //Note, not safe for multiple connections to the DB inputting at once. 
+                                    int newID = DBRHandler.GetNewCustomerID();  //Note, not safe for multiple connections to the DB inputting at once. 
 
                                     Console.WriteLine("Your new customer ID is: " + newID);
 
-                                    retrievedCustomer = DBRHandler.GetCustomerDataFromID(newID, context);
+                                    retrievedCustomer = DBRHandler.GetCustomerDataFromID(newID);
 
                                     whileInSecondaryMenu = false;
                                     menuSwitch = 6;
@@ -272,12 +274,12 @@ namespace StoreApp.Main
                             }
                             else if (inputOne == "3")
                             {
-                                orderList = DBRHandler.GetListOfOrdersByCustomerID(retrievedCustomer.customerID, context);
+                                orderList = DBRHandler.GetListOfOrdersByCustomerID(retrievedCustomer.customerID);
 
                                 foreach(BusinessLogic.Objects.Order BLOrder in orderList)
                                 {
-                                    BLOrder.customerProductList = DBRHandler.GetListOrderProductByOrderID(BLOrder, context);
-                                    BLOrder.storeLocation = DBRHandler.GetStoreInformationFromOrderNumber(BLOrder.orderID, context);
+                                    BLOrder.customerProductList = DBRHandler.GetListOrderProductByOrderID(BLOrder);
+                                    BLOrder.storeLocation = DBRHandler.GetStoreInformationFromOrderNumber(BLOrder.orderID);
                                 }
 
                                 if (orderList == null || orderList.Count == 0)
@@ -326,7 +328,7 @@ namespace StoreApp.Main
                             }
                             else if (inputOne == "2") //View store inventory
                             {
-                                retrievedStore.storeInventory = DBRHandler.GetStoreInventoryByStoreNumber(retrievedStore.storeNumber, context);
+                                retrievedStore.storeInventory = DBRHandler.GetStoreInventoryByStoreNumber(retrievedStore.storeNumber);
                                 Console.WriteLine("------------ Store inventory ------------");
 
                                 foreach (BusinessLogic.Objects.Product BLProd in retrievedStore.storeInventory.productData)
@@ -339,11 +341,11 @@ namespace StoreApp.Main
                             {
                                 orderList = new List<BusinessLogic.Objects.Order>();
 
-                                orderList = DBRHandler.GetListOfOrdersFromStoreNumber(retrievedStore.storeNumber, context);
+                                orderList = DBRHandler.GetListOfOrdersFromStoreNumber(retrievedStore.storeNumber);
                                 foreach (BusinessLogic.Objects.Order BLOrder in orderList)
                                 {
-                                    BLOrder.customerProductList = DBRHandler.GetListOrderProductByOrderID(BLOrder, context);
-                                    BLOrder.storeLocation = DBRHandler.GetStoreInformationFromOrderNumber(BLOrder.orderID, context);
+                                    BLOrder.customerProductList = DBRHandler.GetListOrderProductByOrderID(BLOrder);
+                                    BLOrder.storeLocation = DBRHandler.GetStoreInformationFromOrderNumber(BLOrder.orderID);
                                 }
 
                                 if (orderList == null || orderList.Count == 0)
@@ -393,7 +395,7 @@ namespace StoreApp.Main
                                     inputOrder = new BusinessLogic.Objects.Order();
                                     BusinessLogic.Objects.Product inputProd = new BusinessLogic.Objects.Product(); 
 
-                                    retrievedStore.storeInventory = DBRHandler.GetStoreInventoryByStoreNumber(retrievedStore.storeNumber, context);
+                                    retrievedStore.storeInventory = DBRHandler.GetStoreInventoryByStoreNumber(retrievedStore.storeNumber);
 
                                     foreach (BusinessLogic.Objects.Product prod in retrievedStore.storeInventory.productData)
                                     {
@@ -442,8 +444,7 @@ namespace StoreApp.Main
                                             }
                                             catch (Exception e)
                                             {
-                                                Console.WriteLine("Unable to perform the operation: \n");
-                                                storeLogger.Info(e);                               
+                                                Console.WriteLine("Unable to perform the operation: \n" + e.Message);                              
                                             }
                                         }
                                         else
@@ -489,7 +490,7 @@ namespace StoreApp.Main
 
                                 try
                                 {
-                                    retrievedStore = DBRHandler.GetStoreFromStoreNumber(storeNum, context);
+                                    retrievedStore = DBRHandler.GetStoreFromStoreNumber(storeNum);
                                     menuSwitch = 8;
                                     whileInSecondaryMenu = false;
                                 }

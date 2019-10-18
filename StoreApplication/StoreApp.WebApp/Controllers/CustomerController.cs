@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StoreApp.DataLibrary.Entities;
 using StoreApp.BusinessLogic.Objects;
+using StoreApp.WebApp.Models;
 
 namespace StoreApp.WebApp.Controllers
 {
@@ -32,17 +33,39 @@ namespace StoreApp.WebApp.Controllers
         // GET: Customer/Create
         public ActionResult Create()
         {
-            return View();
+            var viewModel = new CustomerViewModel();
+            return View(viewModel);
         }
 
         // POST: Customer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> CreateAsync(CustomerViewModel VMCustomer)
         {
             try
             {
-                // TODO: Add insert logic here
+                // ModelState works with model binding to give us automatic 
+                // server-side validation of any of those attributes on the model class.
+                // (e.g. Required, Range, RegularExpression)
+                if (!ModelState.IsValid)
+                {
+                    return View(nameof(Index));
+                }
+
+                var customer = new BusinessLogic.Objects.Customer
+                {
+                    firstName = VMCustomer.FirstName,
+                    lastName = VMCustomer.LastName,
+                    customerAddress = new Address
+                    {
+                        street = VMCustomer.Street,
+                        city = VMCustomer.City,
+                        state = VMCustomer.State,
+                        zip = VMCustomer.zip
+                    }
+                };
+
+                await _repository.AddCustomerAsync(customer);
 
                 return RedirectToAction(nameof(Index));
             }

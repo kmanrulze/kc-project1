@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApp.BusinessLogic", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApp.Tests", "StoreApp.Tests\StoreApp.Tests.csproj", "{51FE308E-1D94-4978-83D7-3995F915D4ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApp.ConsoleInterface", "StoreApp.ConsoleInterface\StoreApp.ConsoleInterface.csproj", "{148B70C4-77E9-49EA-B41A-CEA1CF3CBC31}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApp.DataLibrary", "StoreApp.DataLibrary\StoreApp.DataLibrary.csproj", "{BA093B00-DC93-4630-BBCC-6A39F0945C56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp.WebApp", "StoreApp.WebApp\StoreApp.WebApp.csproj", "{968AB5ED-17FC-4326-9364-B501C8342D02}"
@@ -27,10 +25,6 @@ Global
 		{51FE308E-1D94-4978-83D7-3995F915D4ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51FE308E-1D94-4978-83D7-3995F915D4ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51FE308E-1D94-4978-83D7-3995F915D4ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{148B70C4-77E9-49EA-B41A-CEA1CF3CBC31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{148B70C4-77E9-49EA-B41A-CEA1CF3CBC31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{148B70C4-77E9-49EA-B41A-CEA1CF3CBC31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{148B70C4-77E9-49EA-B41A-CEA1CF3CBC31}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA093B00-DC93-4630-BBCC-6A39F0945C56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA093B00-DC93-4630-BBCC-6A39F0945C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA093B00-DC93-4630-BBCC-6A39F0945C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
