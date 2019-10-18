@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StoreApp.BusinessLogic.Objects;
 using StoreApp.DataLibrary.Entities;
+using static StoreApp.BusinessLogic.Objects.GuidService;
 
 namespace StoreApp.WebApp
 {
@@ -33,7 +34,13 @@ namespace StoreApp.WebApp
                 options.UseSqlServer(connectionString);
             });
 
+            //Repo for data
             services.AddScoped<IRepository, Repository>();
+
+            //Persistent data
+            services.AddSingleton<SingletonGuidService>();
+            services.AddScoped<ScopedGuidService>();
+            services.AddTransient<TransientGuidService>();
 
             services.AddControllersWithViews();
         }

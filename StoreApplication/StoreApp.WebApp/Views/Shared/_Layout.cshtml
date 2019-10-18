@@ -28,6 +28,18 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Manager" asp-action="Login">Manager Login</a>
                         </li>
                     </ul>
+                    @if (TempData.ContainsKey("Login"))
+                    {
+                        <div>
+                            @* every time you access a value in tempdata, it is marked
+                for deletion at the end of the current request *@
+                            @TempData.Peek("Login")
+                            @* if you want to keep it around, you can
+                unmark the value for deletion using TempData.Keep("Login")*@
+                            @* alternately, you can avoid marking it at all
+                by accessing with .Peek method instead of indexing [] *@
+                        </div>
+                    }
                 </div>
             </div>
         </nav>

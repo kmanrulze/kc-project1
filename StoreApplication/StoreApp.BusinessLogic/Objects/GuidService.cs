@@ -4,9 +4,12 @@ using System.Text;
 
 namespace StoreApp.BusinessLogic.Objects
 {
-    class GuidService
+    public class GuidService
     {
         public Guid Guid { get; } = Guid.NewGuid();
+
+        public DateTime Created { get; } = DateTime.Now;
+
 
         public class SingletonGuidService : GuidService
         {

@@ -67,7 +67,7 @@ namespace StoreApp.WebApp.Controllers
         }
         public ActionResult OrderInformation()
         {
-
+            return View();
         }
 
         // GET: Manager/Create

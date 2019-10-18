@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StoreApp.WebApp.Models;
+using static StoreApp.BusinessLogic.Objects.GuidService;
 
 namespace StoreApp.WebApp.Controllers
 {
@@ -13,13 +14,28 @@ namespace StoreApp.WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly SingletonGuidService singletonGUID;
+
+        private readonly ScopedGuidService scopedGUID;
+
+        private readonly TransientGuidService transientGUID;
+
+
+
+        public HomeController(ILogger<HomeController> logger, SingletonGuidService singleton, ScopedGuidService scoped, TransientGuidService transient)
         {
             _logger = logger;
+            singletonGUID = singleton;
+            scopedGUID = scoped;
+            transientGUID = transient;
         }
 
-        public IActionResult Index()
+        public IActionResult Index([FromServices] SingletonGuidService singleton, [FromServices] ScopedGuidService scoped, [FromServices] TransientGuidService transient)
         {
+            ViewData["singleton"] = singletonGUID;
+            ViewData["scoped"] = scopedGUID;
+            ViewData["transient"] = transientGUID;
+
             return View();
         }
 
