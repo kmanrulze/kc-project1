@@ -23,19 +23,21 @@ VALUES
     ('99 Whammy Drive', 'Cena', 'WI', 84847);
 INSERT INTO app.Orders
 VALUES
-    (1),
-    (2),
-    (3);
+    (1,1),
+    (2,2),
+    (3,3),
+	(1,2),
+	(2,3);
 INSERT INTO app.OrderProduct
 VALUES
-    (1, 1, 1, 1),
-    (1, 2, 2, 2),
-    (1, 1, 3, 3),
-    (2, 1, 1, 1),
-    (2, 2, 2, 2),
-    (2, 1, 3, 3),
-    (3, 2, 1, 1),
-    (3, 2, 2, 3);
+    (1, 1, 1),
+    (1, 2, 2),
+    (1, 3, 3),
+    (2, 1, 1),
+    (2, 2, 2),
+    (3, 3, 3),
+    (4, 1, 1),
+    (5, 2, 2);
 INSERT INTO app.InventoryProduct
 VALUES
     (1, 1, 20),

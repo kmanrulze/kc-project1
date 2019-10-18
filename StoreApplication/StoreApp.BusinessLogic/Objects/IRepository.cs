@@ -12,5 +12,6 @@ namespace StoreApp.BusinessLogic.Objects
         Task AddCustomerAsync(Customer BLCustomer);
         Task<Manager> GetManagerInformation(int ManagerID);
         Task<Store> GetStoreInformation(int StoreID);
+        Task<List<Order>> GetListAllOrdersForStore(int storeID);
     }
 }

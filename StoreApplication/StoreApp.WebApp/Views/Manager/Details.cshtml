@@ -4,10 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>DetailsAsync</h1>
+<h1>Details for Store Number @Model.StoreID</h1>
 
 <div>
-    <h4>ManagerViewModel</h4>
+    <h4>Manager View</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -63,7 +63,7 @@
 <div>
     <ul>
         <li>
-            <a asp-action="ViewOrderInfo">View Order Information</a>
+            @Html.ActionLink("View Order Test", "OrderInformation", "Manager", new { managerID=Model.ManagerID, StoreNumber= Model.StoreID},null)
         </li>
         <li>
             <a asp-controller="Home" asp-action="Index">Log Out</a>

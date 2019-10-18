@@ -34,13 +34,13 @@ CREATE TABLE app.InventoryProduct
 CREATE TABLE app.Orders
 (
     OrderID INT IDENTITY(1,1) PRIMARY KEY,
-    CustomerID INT FOREIGN KEY REFERENCES app.Customer(CustomerID) NOT NULL
+    CustomerID INT FOREIGN KEY REFERENCES app.Customer(CustomerID) NOT NULL,
+	StoreNumber INT FOREIGN KEY REFERENCES app.Store(StoreNumber) NOT NULL
 );
 CREATE TABLE app.OrderProduct
 (
 	OrderProductID INT IDENTITY(1,1) PRIMARY KEY,
     OrderID INT FOREIGN KEY REFERENCES app.Orders(OrderID) NOT NULL,
-    StoreNumber INT FOREIGN KEY REFERENCES app.Store(StoreNumber) NOT NULL,
     ProductTypeID INT FOREIGN KEY REFERENCES app.Product(ProductTypeID) NOT NULL,
     ProductAmount INT NOT NULL
 );

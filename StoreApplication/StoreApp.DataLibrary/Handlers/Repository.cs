@@ -92,5 +92,33 @@ namespace StoreApp.DataLibrary.Entities
             }
 
         }
+
+        public async Task<List<Order>> GetListAllOrdersForStore(int storeID)
+        {
+            try
+            {
+                List<BusinessLogic.Objects.Order> BLListOrders = new List<Order>();
+
+                foreach (Entities.Orders CTXOrder in _context.Orders)
+                {
+                    BLListOrders.Add(ParseHandler.ContextOrderToLogicOrder(CTXOrder));
+                }
+                foreach (BusinessLogic.Objects.Order BLOrder in BLListOrders)
+                {
+                    foreach (Entities.OrderProduct CTXOrdProd in _context.OrderProduct.AsNoTracking().Where(op => op.StoreNumber == storeID).ToHashSet())
+                    {
+                        if (BLOrder.orderID == CTXOrdProd.OrderId)
+                        {
+                            BLOrder.customerProductList.Add(ParseHandler.ContextOrderProductToLogicProduct(CTXOrdProd));
+                        }
+                    }
+                }
+                return BLListOrders;
+            }
+            catch
+            {
+                throw new Exception("Failed to retrieve order information for store number: " + storeID);
+            }
+        }
     }
 }

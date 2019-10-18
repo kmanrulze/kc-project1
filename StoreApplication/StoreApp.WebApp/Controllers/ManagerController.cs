@@ -65,8 +65,9 @@ namespace StoreApp.WebApp.Controllers
         {
             return View(inputManagerID);
         }
-        public ActionResult OrderInformation()
+        public async Task<ActionResult> OrderInformation([FromQuery]int ManagerID, [FromQuery]int StoreID)
         {
+            List<Order> storeOrderList = await _repository.GetListAllOrdersForStore(StoreID);
             return View();
         }
 
