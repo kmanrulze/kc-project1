@@ -99,19 +99,17 @@ namespace StoreApp.DataLibrary.Entities
             {
                 List<BusinessLogic.Objects.Order> BLListOrders = new List<Order>();
 
-                foreach (Entities.Orders CTXOrder in _context.Orders)
+                foreach (Entities.Orders CTXOrder in _context.Orders.AsNoTracking().Where(o => o.StoreNumber == storeID).ToHashSet())
                 {
                     BLListOrders.Add(ParseHandler.ContextOrderToLogicOrder(CTXOrder));
                 }
-                foreach (BusinessLogic.Objects.Order BLOrder in BLListOrders)
+                foreach (BusinessLogic.Objects.Order BLOrd in BLListOrders)
                 {
-                    foreach (Entities.OrderProduct CTXOrdProd in _context.OrderProduct.AsNoTracking().Where(op => op.StoreNumber == storeID).ToHashSet())
-                    {
-                        if (BLOrder.orderID == CTXOrdProd.OrderId)
-                        {
-                            BLOrder.customerProductList.Add(ParseHandler.ContextOrderProductToLogicProduct(CTXOrdProd));
-                        }
-                    }
+                    BLOrd.storeLocation = await GetStoreInformation(BLOrd.storeLocation.storeNumber);
+                }
+                foreach (Order BLOrdToFill in BLListOrders)
+                {
+                    BLOrdToFill.customerProductList = await GetOrderProductListByID(BLOrdToFill.orderID);
                 }
                 return BLListOrders;
             }
@@ -119,6 +117,22 @@ namespace StoreApp.DataLibrary.Entities
             {
                 throw new Exception("Failed to retrieve order information for store number: " + storeID);
             }
+        }
+
+        public async Task<List<BusinessLogic.Objects.Product>> GetOrderProductListByID(int orderID)
+        {
+            List<Entities.OrderProduct> CTXOrdProdList = await _context.OrderProduct.AsNoTracking().Where(op => op.OrderId == orderID).ToListAsync();
+            List<BusinessLogic.Objects.Product> BLProdList = new List<BusinessLogic.Objects.Product>();
+            foreach(OrderProduct CTXOrdProd in CTXOrdProdList)
+            {
+                BLProdList.Add(ParseHandler.ContextOrderProductToLogicProduct(CTXOrdProd));
+            }
+            foreach (Entities.Product CTXProduct in _context.Product)
+            {
+                //Some logic to name the products before sending them out
+            }
+
+            return BLProdList;
         }
     }
 }

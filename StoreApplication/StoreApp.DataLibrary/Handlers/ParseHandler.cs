@@ -42,7 +42,6 @@ namespace StoreApp.DataLibrary.Handlers
 
             CTXOrdProd.ProductTypeId = BLProd.productTypeID;
             CTXOrdProd.ProductAmount = BLProd.amount;
-            CTXOrdProd.StoreNumber = BLOrder.storeLocation.storeNumber;
             CTXOrdProd.OrderId = orderID;
 
             return CTXOrdProd;
@@ -125,6 +124,7 @@ namespace StoreApp.DataLibrary.Handlers
             BusinessLogic.Objects.Order BLOrder = new Order();
             BLOrder.customer.customerID = CTXOrder.CustomerId;
             BLOrder.orderID = CTXOrder.OrderId;
+            BLOrder.storeLocation.storeNumber = CTXOrder.StoreNumber;
 
             return BLOrder;
         }
