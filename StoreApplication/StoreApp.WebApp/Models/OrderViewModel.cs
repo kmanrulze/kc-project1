@@ -10,6 +10,8 @@ namespace StoreApp.WebApp.Models
     {
         public int OrderID { get; set; }
         public int StoreNumber { get; set; }
-        public Customer CustomerOrderInformation { get; set; }
+        public int CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public List<Product> Products { get; set; }
     }
 }

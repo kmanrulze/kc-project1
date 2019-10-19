@@ -65,10 +65,19 @@ namespace StoreApp.WebApp.Controllers
         {
             return View(inputManagerID);
         }
-        public async Task<ActionResult> OrderInformation([FromQuery]int ManagerID, [FromQuery]int StoreID)
+        public async Task<ActionResult> OrderInformationByStore([FromQuery]int ManagerID, [FromQuery]int StoreID)
         {
-            List<Order> storeOrderList = await _repository.GetListAllOrdersForStore(StoreID);
-            return View();
+            List<BusinessLogic.Objects.Order> storeOrderList = await _repository.GetListAllOrdersForStore(StoreID);
+
+            var viewModel = new OrderViewModel
+            {
+                Products = storeOrderList.Select(op => op.customerProductList).ToList<Product>(),
+                CustomerID = storeOrderList.orderID,
+                CustomerName = storeOrderList.customer.firstName + " " + storeOrderList.customer.lastName,
+                StoreNumber = storeOrderList.storeLocation.storeNumber
+
+            };
+            return View(viewModel);
         }
 
         // GET: Manager/Create

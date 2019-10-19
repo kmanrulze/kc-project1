@@ -129,7 +129,13 @@ namespace StoreApp.DataLibrary.Entities
             }
             foreach (Entities.Product CTXProduct in _context.Product)
             {
-                //Some logic to name the products before sending them out
+                foreach(BusinessLogic.Objects.Product BLProd in BLProdList)
+                {
+                    if (CTXProduct.ProductTypeId == BLProd.productTypeID)
+                    {
+                        BLProd.name = CTXProduct.ProductName;
+                    }
+                }
             }
 
             return BLProdList;
