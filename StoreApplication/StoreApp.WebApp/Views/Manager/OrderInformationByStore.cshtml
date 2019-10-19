@@ -24,6 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.CustomerName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -43,9 +46,14 @@
                 @Html.DisplayFor(modelItem => item.CustomerName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @foreach (var items in item.Products)
+                {
+                    @items <br/>
+                }
+                @*string.Join(",\r", item.Products)*@
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }

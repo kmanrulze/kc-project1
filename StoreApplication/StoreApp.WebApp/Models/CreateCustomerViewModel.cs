@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StoreApp.WebApp.Models
 {
-    public class CustomerViewModel
+    public class CreateCustomerViewModel
     {
         public int ID { get; set; }
         [Required]
@@ -24,6 +24,6 @@ namespace StoreApp.WebApp.Models
         [Required]
         public string State { get; set; }
         [Required]
-        public string zip { get; set; }
+        public string Zip { get; set; }
     }
 }

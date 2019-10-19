@@ -110,6 +110,7 @@ namespace StoreApp.DataLibrary.Entities
                 foreach (Order BLOrdToFill in BLListOrders)
                 {
                     BLOrdToFill.customerProductList = await GetOrderProductListByID(BLOrdToFill.orderID);
+                    BLOrdToFill.customer = await GetCustomerByID(BLOrdToFill.customer.customerID);
                 }
                 return BLListOrders;
             }
@@ -119,26 +120,75 @@ namespace StoreApp.DataLibrary.Entities
             }
         }
 
+        public async Task<BusinessLogic.Objects.Customer> GetCustomerByID(int CustomerID)
+        {
+            try
+            {
+                return ParseHandler.ContextCustomerToLogicCustomer(await _context.Customer.AsNoTracking().FirstAsync(c => c.CustomerId == CustomerID));
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Failed to retrieve customer information for customer ID: " + CustomerID + "\nException thrown: " + e.Message);
+            }
+            
+        }
+
         public async Task<List<BusinessLogic.Objects.Product>> GetOrderProductListByID(int orderID)
         {
-            List<Entities.OrderProduct> CTXOrdProdList = await _context.OrderProduct.AsNoTracking().Where(op => op.OrderId == orderID).ToListAsync();
-            List<BusinessLogic.Objects.Product> BLProdList = new List<BusinessLogic.Objects.Product>();
-            foreach(OrderProduct CTXOrdProd in CTXOrdProdList)
+            try
             {
-                BLProdList.Add(ParseHandler.ContextOrderProductToLogicProduct(CTXOrdProd));
-            }
-            foreach (Entities.Product CTXProduct in _context.Product)
-            {
-                foreach(BusinessLogic.Objects.Product BLProd in BLProdList)
+                List<Entities.OrderProduct> CTXOrdProdList = await _context.OrderProduct.AsNoTracking().Where(op => op.OrderId == orderID).ToListAsync();
+                List<BusinessLogic.Objects.Product> BLProdList = new List<BusinessLogic.Objects.Product>();
+
+                foreach (OrderProduct CTXOrdProd in CTXOrdProdList)
                 {
-                    if (CTXProduct.ProductTypeId == BLProd.productTypeID)
+                    BLProdList.Add(ParseHandler.ContextOrderProductToLogicProduct(CTXOrdProd));
+                }
+                foreach (Entities.Product CTXProduct in _context.Product)
+                {
+                    foreach (BusinessLogic.Objects.Product BLProd in BLProdList)
                     {
-                        BLProd.name = CTXProduct.ProductName;
+                        if (CTXProduct.ProductTypeId == BLProd.productTypeID)
+                        {
+                            BLProd.name = CTXProduct.ProductName;
+                        }
                     }
                 }
+
+                return BLProdList;
+            }
+            catch
+            {
+                throw new Exception("Failed to retrieve order product information for order ID: " + orderID);
             }
 
-            return BLProdList;
+        }
+
+        public async Task<List<BusinessLogic.Objects.Order>> GetListAllOrdersFromCustomer(int customerID)
+        {
+            try
+            {
+                List<BusinessLogic.Objects.Order> BLListOrders = new List<Order>();
+
+                foreach (Entities.Orders CTXOrder in _context.Orders.AsNoTracking().Where(o => o.CustomerId == customerID).ToHashSet())
+                {
+                    BLListOrders.Add(ParseHandler.ContextOrderToLogicOrder(CTXOrder));
+                }
+                foreach (BusinessLogic.Objects.Order BLOrd in BLListOrders)
+                {
+                    BLOrd.storeLocation = await GetStoreInformation(BLOrd.storeLocation.storeNumber);
+                }
+                foreach (Order BLOrdToFill in BLListOrders)
+                {
+                    BLOrdToFill.customerProductList = await GetOrderProductListByID(BLOrdToFill.orderID);
+                    BLOrdToFill.customer = await GetCustomerByID(BLOrdToFill.customer.customerID);
+                }
+                return BLListOrders;
+            }
+            catch
+            {
+                throw new Exception("Failed to retrieve order information for customer number: " + customerID);
+            }
         }
     }
 }

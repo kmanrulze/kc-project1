@@ -14,5 +14,7 @@ namespace StoreApp.BusinessLogic.Objects
         Task<Store> GetStoreInformation(int StoreID);
         Task<List<Order>> GetListAllOrdersForStore(int storeID);
         Task<List<BusinessLogic.Objects.Product>> GetOrderProductListByID(int orderID);
+        Task<BusinessLogic.Objects.Customer> GetCustomerByID(int CustomerID);
+        Task<List<BusinessLogic.Objects.Order>> GetListAllOrdersFromCustomer(int customerID);
     }
 }

@@ -5,19 +5,17 @@ using StoreApp.DataLibrary.Handlers;
 using System;
 using System.Collections.Generic;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace StoreApp.Tests
 {
     public class UnitTests
     {
-        private readonly TestVarGeneration testVariable = new TestVarGeneration();
-        public static RetrieveDatabaseHandler DBRHandler = new RetrieveDatabaseHandler();
-        public static InputDatabaseHandler DBIHandler = new InputDatabaseHandler();
-
-        internal static string connectionString = DBRHandler.GetConnectionString();
-        DbContextOptions<StoreApplicationContext> options = new DbContextOptionsBuilder<StoreApplicationContext>()
-            .UseSqlServer(connectionString)
-            .Options;
+        private readonly IRepository _repository;
+        public UnitTests(IRepository repository)
+        {
+            _repository = repository;
+        }
 
         /// <summary>
         /// Test to determine if the customer data is retrieved from a proper ID
@@ -26,16 +24,12 @@ namespace StoreApp.Tests
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void CheckGetCustomerReturnsProperValues(int testID)
+        public async Task CheckGetCustomerReturnsProperValuesAsync(int testID)
         {
-            
-            using var context = new StoreApplicationContext(options);
             BusinessLogic.Objects.Customer testCustomer = new BusinessLogic.Objects.Customer();
 
-            testCustomer = DBRHandler.GetCustomerDataFromID(testID, context);
+            testCustomer = await _repository.GetCustomerByID(testID);
             Assert.True(testCustomer.CheckCustomerNotNull());
-
-
         }
 
         /// <summary>
@@ -45,12 +39,11 @@ namespace StoreApp.Tests
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void GetManagerReturnsProperValues(int testID)
+        public async Task GetManagerReturnsProperValues(int testID)
         {
-            using var context = new StoreApplicationContext(options);
             BusinessLogic.Objects.Manager testManager = new BusinessLogic.Objects.Manager();
 
-            testManager = DBRHandler.GetManagerDataFromID(testID, context);
+            testManager = await _repository.GetManagerInformation(testID);
             Assert.True(testManager.CheckIfManagerNull());
         }
 
@@ -61,13 +54,11 @@ namespace StoreApp.Tests
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void CheckStoreDataReturnProperValues(int testID)
+        public async Task CheckStoreDataReturnProperValues(int testID)
         {
-
-            using var context = new StoreApplicationContext(options);
             BusinessLogic.Objects.Store testStore = new BusinessLogic.Objects.Store();
 
-            testStore = DBRHandler.GetStoreFromStoreNumber(testID, context);
+            testStore = await _repository.GetStoreInformation(testID);
             Assert.True(testStore.CheckStoreNotNull());
             
         }
@@ -79,13 +70,12 @@ namespace StoreApp.Tests
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void CheckStoreProductReturnsProperValues(int testID)
+        public async Task CheckStoreProductReturnsProperValues(int testID)
         {
-            using var context = new StoreApplicationContext(options);
             BusinessLogic.Objects.Store testStore = new BusinessLogic.Objects.Store();
 
-            testStore = DBRHandler.GetStoreFromStoreNumber(testID, context);
-            testStore.storeInventory = DBRHandler.GetStoreInventoryByStoreNumber(testID, context);
+            testStore = await _repository.GetStoreInformation(testID);
+            //testStore.storeInventory = DBRHandler.GetStoreInventoryByStoreNumber(testID);
             Assert.True(testStore.storeInventory.CheckIfProductListNotNull());
         }
 
@@ -95,7 +85,6 @@ namespace StoreApp.Tests
         [Fact]
         public void CheckStoreProductReturnsFalseIfNoProduct()
         {
-            using var context = new StoreApplicationContext(options);
             BusinessLogic.Objects.Store testStore = new BusinessLogic.Objects.Store();
 
             Assert.False(testStore.storeInventory.CheckIfProductListNotNull());
@@ -110,10 +99,9 @@ namespace StoreApp.Tests
         [InlineData(2)]
         public void CheckIfOrderDataReturnsProperIDs(int testID)
         {
-            using var context = new StoreApplicationContext(options);
             List<BusinessLogic.Objects.Order> testListOrder = new List<Order>();
 
-            testListOrder = DBRHandler.GetListOfOrdersByCustomerID(testID, context);
+            //testListOrder = DBRHandler.GetListOfOrdersByCustomerID(testID);
 
             foreach (BusinessLogic.Objects.Order testOrder in testListOrder)
             {

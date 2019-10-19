@@ -12,6 +12,6 @@ namespace StoreApp.WebApp.Models
         public int StoreNumber { get; set; }
         public int CustomerID { get; set; }
         public string CustomerName { get; set; }
-        public List<Product> Products { get; set; }
+        public List<string> Products { get; set; }
     }
 }

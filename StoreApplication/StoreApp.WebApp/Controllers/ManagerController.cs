@@ -65,19 +65,31 @@ namespace StoreApp.WebApp.Controllers
         {
             return View(inputManagerID);
         }
-        public async Task<ActionResult> OrderInformationByStore([FromQuery]int ManagerID, [FromQuery]int StoreID)
+        [HttpGet("{StoreNumber}")]
+        public async Task<ActionResult> OrderInformationByStore(int StoreNumber, int ManagerID)
         {
-            List<BusinessLogic.Objects.Order> storeOrderList = await _repository.GetListAllOrdersForStore(StoreID);
 
-            var viewModel = new OrderViewModel
+
+            List<BusinessLogic.Objects.Order> storeOrderList = await _repository.GetListAllOrdersForStore(StoreNumber);
+
+            if(ManagerID == 0 || ManagerID == 0)
             {
-                Products = storeOrderList.Select(op => op.customerProductList).ToList<Product>(),
-                CustomerID = storeOrderList.orderID,
-                CustomerName = storeOrderList.customer.firstName + " " + storeOrderList.customer.lastName,
-                StoreNumber = storeOrderList.storeLocation.storeNumber
+                return RedirectToAction(nameof(InvalidManager));
+            }
+            else
+            {
+                var viewModel = storeOrderList.Select(o => new OrderViewModel
+                {
+                    OrderID = o.orderID,
+                    CustomerID = o.customer.customerID,
+                    StoreNumber = o.storeLocation.storeNumber,
+                    Products = o.customerProductList.Select(p => p.name + ": " + p.amount).ToList(),
+                    CustomerName = o.customer.firstName + " " + o.customer.lastName
 
-            };
-            return View(viewModel);
+                });
+                return View(viewModel);
+            }
+
         }
 
         // GET: Manager/Create

@@ -18,10 +18,9 @@ namespace StoreApp.WebApp.Controllers
             _repository = repository;
         }
         // GET: Customer
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            IEnumerable<BusinessLogic.Objects.Customer> customers = await _repository.GetAllCustomersAsync();
-            return View(customers);
+            return View();
         }
 
         // GET: Customer/Details/5
@@ -29,18 +28,63 @@ namespace StoreApp.WebApp.Controllers
         {
             return View();
         }
+        public ActionResult Login()
+        {
+            var viewModel = new CustomerProfileViewModel();
+            return View(viewModel);
+        }
+        public async Task<ActionResult> ProfileAsync(int CustomerID)
+        {
+            try
+            {
+                BusinessLogic.Objects.Customer customer = await _repository.GetCustomerByID(CustomerID);
+                List<BusinessLogic.Objects.Order> orders = await _repository.GetListAllOrdersFromCustomer(CustomerID);
+
+                if (!ModelState.IsValid)
+                {
+                    return View(nameof(Login));
+                }
+                if(customer.customerID == 0)
+                {
+                    return RedirectToAction(nameof(InvalidCustomer));
+                }
+
+                var viewModel = new CustomerProfileViewModel
+                {
+                    ID = customer.customerID,
+                    FirstName = customer.firstName,
+                    LastName = customer.lastName,
+                    Street = customer.customerAddress.street,
+                    City = customer.customerAddress.city,
+                    State = customer.customerAddress.state,
+                    Zip = customer.customerAddress.zip,
+                    CustomerOrders = orders
+                };
+
+                return View(viewModel);
+            }
+            catch (InvalidOperationException)
+            {
+
+                return RedirectToAction(nameof(InvalidCustomer));
+            }
+        }
+        public ActionResult InvalidCustomer(int inputCustomerID)
+        {
+            return View(inputCustomerID);
+        }
 
         // GET: Customer/Create
         public ActionResult Create()
         {
-            var viewModel = new CustomerViewModel();
+            var viewModel = new CreateCustomerViewModel();
             return View(viewModel);
         }
 
         // POST: Customer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(CustomerViewModel VMCustomer)
+        public async Task<ActionResult> CreateAsync(CreateCustomerViewModel VMCustomer)
         {
             try
             {
@@ -61,7 +105,7 @@ namespace StoreApp.WebApp.Controllers
                         street = VMCustomer.Street,
                         city = VMCustomer.City,
                         state = VMCustomer.State,
-                        zip = VMCustomer.zip
+                        zip = VMCustomer.Zip
                     }
                 };
 

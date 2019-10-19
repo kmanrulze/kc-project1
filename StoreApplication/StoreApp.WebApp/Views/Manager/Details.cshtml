@@ -63,7 +63,7 @@
 <div>
     <ul>
         <li>
-            @Html.ActionLink("View Order Test", "OrderInformationByStore", "Manager", new { managerID=Model.ManagerID, StoreNumber= Model.StoreID},null)
+            @Html.ActionLink("View orders for this store", "OrderInformationByStore", "Manager", new {StoreNumber= Model.StoreID, LoggedInUnderID=Model.ManagerID},null)
         </li>
         <li>
             <a asp-controller="Home" asp-action="Index">Log Out</a>
