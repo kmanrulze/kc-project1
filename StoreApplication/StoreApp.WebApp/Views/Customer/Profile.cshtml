@@ -4,7 +4,7 @@
     ViewData["Title"] = "Profile";
 }
 
-<h1>Profile</h1>
+<h1>ProfileAsync</h1>
 
 <div>
     <h4>CustomerProfileViewModel</h4>
@@ -55,6 +55,47 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerOrderIDs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderStore)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerProduct)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CustomerOrders)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.orderID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.storeLocation.storeNumber)
+                    </td>
+                    <td>
+                        @foreach (var items in item.customerProductList)
+                        {
+                            @(items.name + ": " + items.amount)<br />
+                        }
+                        @*string.Join(",\r", item.Products)*@
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    @Html.ActionLink("New Order","Order","CreateOrder", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>

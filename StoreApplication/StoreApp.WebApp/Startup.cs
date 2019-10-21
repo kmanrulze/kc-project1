@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,9 +39,9 @@ namespace StoreApp.WebApp
             services.AddScoped<IRepository, Repository>();
 
             //Persistent data
-            services.AddSingleton<SingletonGuidService>();
-            services.AddScoped<ScopedGuidService>();
-            services.AddTransient<TransientGuidService>();
+
+            services.AddMvc();
+            services.AddSession();
 
             services.AddControllersWithViews();
         }
@@ -58,12 +59,14 @@ namespace StoreApp.WebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseAuthorization();
+
+
 
             app.UseEndpoints(endpoints =>
             {

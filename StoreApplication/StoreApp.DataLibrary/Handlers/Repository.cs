@@ -190,5 +190,18 @@ namespace StoreApp.DataLibrary.Entities
                 throw new Exception("Failed to retrieve order information for customer number: " + customerID);
             }
         }
+
+        public async Task<BusinessLogic.Objects.Customer> GetLastCustomerWithFirstLast(string firstName, string lastName)
+        {
+            try
+            {
+                Customer CTXCustomer = await _context.Customer.AsNoTracking().LastAsync(c => c.FirstName == firstName && c.LastName == lastName);
+                return ParseHandler.ContextCustomerToLogicCustomer(CTXCustomer);
+            }
+            catch
+            {
+                throw new Exception("Failed to get the new customer with first name: " + firstName + "\nand lastName: " + lastName + "\n");
+            }
+        }
     }
 }

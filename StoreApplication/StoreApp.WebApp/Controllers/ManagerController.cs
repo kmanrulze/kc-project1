@@ -4,13 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
 using StoreApp.BusinessLogic.Objects;
 using StoreApp.WebApp.Models;
+using System.Web;
 
 namespace StoreApp.WebApp.Controllers
 {
     public class ManagerController : Controller
     {
+
+
         private readonly IRepository _repository;
         public ManagerController(IRepository repository)
         {
@@ -32,20 +36,21 @@ namespace StoreApp.WebApp.Controllers
         {
             try
             {
-                Manager manager = await _repository.GetManagerInformation(ManagerID);
-                Store store = await _repository.GetStoreInformation(manager.storeNumberManaged);
+                Manager retrievedManager = await _repository.GetManagerInformation(ManagerID);
+                Store retrievedStore = await _repository.GetStoreInformation(retrievedManager.storeNumberManaged);
 
                 var viewModel = new ManagerViewModel
                 {
-                    FirstName = manager.firstName,
-                    LastName = manager.lastName,
-                    StoreID = store.storeNumber,
-                    ManagerID = manager.managerID,
-                    StoreStreet = store.address.street,
-                    StoreCity = store.address.city,
-                    StoreState = store.address.state,
-                    StoreZip = store.address.zip
+                    FirstName = retrievedManager.firstName,
+                    LastName = retrievedManager.lastName,
+                    StoreID = retrievedStore.storeNumber,
+                    ManagerID = retrievedManager.managerID,
+                    StoreStreet = retrievedStore.address.street,
+                    StoreCity = retrievedStore.address.city,
+                    StoreState = retrievedStore.address.state,
+                    StoreZip = retrievedStore.address.zip
                 };
+
 
                 if (!ModelState.IsValid)
                 {
@@ -65,14 +70,12 @@ namespace StoreApp.WebApp.Controllers
         {
             return View(inputManagerID);
         }
-        [HttpGet("{StoreNumber}")]
-        public async Task<ActionResult> OrderInformationByStore(int StoreNumber, int ManagerID)
+        public async Task<ActionResult> OrderInformationByStore(int storeID)
         {
+            
+            List<BusinessLogic.Objects.Order> storeOrderList = await _repository.GetListAllOrdersForStore(storeID);
 
-
-            List<BusinessLogic.Objects.Order> storeOrderList = await _repository.GetListAllOrdersForStore(StoreNumber);
-
-            if(ManagerID == 0 || ManagerID == 0)
+            if(ViewBag.LoggedManager == 0)
             {
                 return RedirectToAction(nameof(InvalidManager));
             }

@@ -14,27 +14,18 @@ namespace StoreApp.WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly SingletonGuidService singletonGUID;
-
-        private readonly ScopedGuidService scopedGUID;
-
-        private readonly TransientGuidService transientGUID;
 
 
 
-        public HomeController(ILogger<HomeController> logger, SingletonGuidService singleton, ScopedGuidService scoped, TransientGuidService transient)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            singletonGUID = singleton;
-            scopedGUID = scoped;
-            transientGUID = transient;
         }
 
-        public IActionResult Index([FromServices] SingletonGuidService singleton, [FromServices] ScopedGuidService scoped, [FromServices] TransientGuidService transient)
+        public IActionResult Index()
         {
-            ViewData["singleton"] = singletonGUID;
-            ViewData["scoped"] = scopedGUID;
-            ViewData["transient"] = transientGUID;
+
+            //RecordInSession("Home");
 
             return View();
         }

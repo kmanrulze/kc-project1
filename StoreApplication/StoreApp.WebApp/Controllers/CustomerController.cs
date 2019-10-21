@@ -17,26 +17,19 @@ namespace StoreApp.WebApp.Controllers
         {
             _repository = repository;
         }
-        // GET: Customer
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: Customer/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        // GET: Customer/Login : Logs in by ID
         public ActionResult Login()
         {
             var viewModel = new CustomerProfileViewModel();
             return View(viewModel);
         }
+
+        // GET: Customer/Profile : Displays stuff from the given ID
         public async Task<ActionResult> ProfileAsync(int CustomerID)
         {
             try
             {
+                CustomerID = 1;
                 BusinessLogic.Objects.Customer customer = await _repository.GetCustomerByID(CustomerID);
                 List<BusinessLogic.Objects.Order> orders = await _repository.GetListAllOrdersFromCustomer(CustomerID);
 
@@ -44,7 +37,7 @@ namespace StoreApp.WebApp.Controllers
                 {
                     return View(nameof(Login));
                 }
-                if(customer.customerID == 0)
+                if (customer.customerID == 0)
                 {
                     return RedirectToAction(nameof(InvalidCustomer));
                 }
@@ -58,7 +51,11 @@ namespace StoreApp.WebApp.Controllers
                     City = customer.customerAddress.city,
                     State = customer.customerAddress.state,
                     Zip = customer.customerAddress.zip,
+                    CustomerOrderIDs = orders.Select(oID => oID.orderID).ToList(),
+                    CustomerProduct = orders.SelectMany(op => op.customerProductList).ToList(),
+                    OrderStore = orders.Select(os => os.storeLocation.storeNumber).ToList(),
                     CustomerOrders = orders
+                            
                 };
 
                 return View(viewModel);
@@ -74,13 +71,6 @@ namespace StoreApp.WebApp.Controllers
             return View(inputCustomerID);
         }
 
-        // GET: Customer/Create
-        public ActionResult Create()
-        {
-            var viewModel = new CreateCustomerViewModel();
-            return View(viewModel);
-        }
-
         // POST: Customer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -88,9 +78,6 @@ namespace StoreApp.WebApp.Controllers
         {
             try
             {
-                // ModelState works with model binding to give us automatic 
-                // server-side validation of any of those attributes on the model class.
-                // (e.g. Required, Range, RegularExpression)
                 if (!ModelState.IsValid)
                 {
                     return View(nameof(Index));
@@ -110,6 +97,7 @@ namespace StoreApp.WebApp.Controllers
                 };
 
                 await _repository.AddCustomerAsync(customer);
+                BusinessLogic.Objects.Customer newCustomer = await _repository.GetLastCustomerWithFirstLast(VMCustomer.FirstName, VMCustomer.LastName);
 
                 return RedirectToAction(nameof(Index));
             }

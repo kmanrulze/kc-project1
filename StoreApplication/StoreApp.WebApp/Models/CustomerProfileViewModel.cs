@@ -18,7 +18,9 @@ namespace StoreApp.WebApp.Models
         public string City { get; set; }
         public string State { get; set; }
         public string Zip { get; set; }
-        public List<Order> CustomerOrders {get; set;}
-
+        public List<Product> CustomerProduct { get; set; }
+        public List<int> CustomerOrderIDs { get; set; }
+        public List<int> OrderStore { get; set; }
+        public List<Order> CustomerOrders { get; set; }
     }
 }
