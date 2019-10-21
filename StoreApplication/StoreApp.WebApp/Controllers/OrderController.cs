@@ -4,11 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StoreApp.BusinessLogic.Objects;
+using StoreApp.WebApp.Models;
 
 namespace StoreApp.WebApp.Controllers
 {
     public class OrderController : Controller
     {
+        private readonly IRepository _repository;
+        public OrderController(IRepository repository)
+        {
+            _repository = repository;
+        }
         // GET: Order
         public ActionResult Index()
         {
@@ -24,13 +31,17 @@ namespace StoreApp.WebApp.Controllers
         // GET: Order/Create
         public ActionResult Create()
         {
+            var viewModel = new CreateOrderViewModel()
+            {
+                Products = await _repository.GetListStockedProducts()
+            };
             return View();
         }
 
         // POST: Order/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(IFormCollection collection)
         {
             try
             {

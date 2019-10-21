@@ -21,9 +21,9 @@ namespace StoreApp.WebApp.Models
         public string Street { get; set; }
         [Required]
         public string City { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Enter a state abbreviation (2 Characters)"),MaxLength(2)]
         public string State { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Enter a valid zip (5 digits)"),MaxLength(5)]
         public string Zip { get; set; }
     }
 }

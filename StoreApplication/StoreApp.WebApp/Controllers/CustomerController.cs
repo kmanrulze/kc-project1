@@ -93,6 +93,7 @@ namespace StoreApp.WebApp.Controllers
                         CustomerOrders = orders
 
                     };
+                    TempData.Keep("LoggedCustomer");
 
                     return View(viewModel);
                 }

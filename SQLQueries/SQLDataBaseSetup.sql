@@ -22,7 +22,8 @@ CREATE TABLE app.Store
 CREATE TABLE app.Product
 (
     ProductTypeID INT IDENTITY(1,1) PRIMARY KEY,
-    ProductName NVARCHAR(25) NOT NULL
+    ProductName NVARCHAR(25) NOT NULL,
+	ProductPrice MONEY NOT NULL
 );
 CREATE TABLE app.InventoryProduct
 (

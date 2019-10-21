@@ -17,5 +17,6 @@ namespace StoreApp.BusinessLogic.Objects
         Task<BusinessLogic.Objects.Customer> GetCustomerByID(int CustomerID);
         Task<List<BusinessLogic.Objects.Order>> GetListAllOrdersFromCustomer(int customerID);
         public Customer GetLastCustomerWithFirstLast(string firstName, string lastName);
+        Task<List<Product>> GetListStockedProducts();
     }
 }

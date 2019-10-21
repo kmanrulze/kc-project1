@@ -1,8 +1,8 @@
 INSERT INTO app.Product
 VALUES
-    ('Dice Set (Pathfinder)'),
-    ('Pathfinder Core Rulebook'),
-    ('Dungeon Masters Screen');
+    ('Dice Set (Pathfinder)', 7.00),
+    ('Pathfinder Core Rulebook', 49.99),
+    ('Dungeon Masters Screen', 24.99);
 INSERT INTO app.Customer
 VALUES
     ('Kevin', 'McCallister', '671 Lincoln Ave', 'Winnetka', 'IL', 60093),

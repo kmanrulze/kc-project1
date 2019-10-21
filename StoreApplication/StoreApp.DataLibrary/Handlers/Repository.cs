@@ -209,5 +209,15 @@ namespace StoreApp.DataLibrary.Entities
                 throw new Exception("Failed to get the new customer with first name: " + firstName + "\nand lastName: " + lastName + "\nException: " + e.Message);
             }
         }
+
+        public Task<List<BusinessLogic.Objects.Product>> GetListStockedProducts()
+        {
+            List<Product> BLProdStockList = new List<Product>();
+
+            foreach(Entities.Product CTXProd in _context.Product)
+            {
+                BLProdStockList.Add(ParseHandler.ContextProductStockToLogicProduct(CTXProd));
+            }
+        }
     }
 }
