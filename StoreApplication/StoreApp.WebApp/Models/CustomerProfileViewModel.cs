@@ -1,4 +1,5 @@
-﻿using StoreApp.BusinessLogic.Objects;
+﻿using Microsoft.AspNetCore.Mvc;
+using StoreApp.BusinessLogic.Objects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,8 @@ namespace StoreApp.WebApp.Models
     public class CustomerProfileViewModel
     {
         [Required]
-        public int ID { get; set; }
+        [TempData]
+        public int CustomerID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Street { get; set; }

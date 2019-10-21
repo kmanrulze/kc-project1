@@ -11,10 +11,10 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ID)
+            @Html.DisplayNameFor(model => model.CustomerID)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ID)
+            @Html.DisplayFor(model => model.CustomerID)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
@@ -85,7 +85,6 @@
                         {
                             @(items.name + ": " + items.amount)<br />
                         }
-                        @*string.Join(",\r", item.Products)*@
                     </td>
                     <td>
                         @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
@@ -96,6 +95,6 @@
     </table>
 </div>
 <div>
-    @Html.ActionLink("New Order","Order","CreateOrder", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("New Order","Order","Create", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>

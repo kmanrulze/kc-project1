@@ -23,6 +23,8 @@ namespace StoreApp.WebApp.Controllers
         public ActionResult Login()
         {
             var viewModel = new ManagerViewModel();
+            TempData.Remove("LoggedStore");
+            TempData.Remove("LoggedManager");
             return View(viewModel);
         }
         // GET: Manager
@@ -31,33 +33,72 @@ namespace StoreApp.WebApp.Controllers
             return View();
         }
 
-        // GET: Manager/Details/5
+        // GET: Manager/Details/
         public async Task<ActionResult> DetailsAsync(int ManagerID)
         {
+            bool hasValue;
+            //Makes sure tempdata is clear
             try
             {
-                Manager retrievedManager = await _repository.GetManagerInformation(ManagerID);
-                Store retrievedStore = await _repository.GetStoreInformation(retrievedManager.storeNumberManaged);
-
-                var viewModel = new ManagerViewModel
+                if (TempData["LoggedManager"] == null && ManagerID == 0)
                 {
-                    FirstName = retrievedManager.firstName,
-                    LastName = retrievedManager.lastName,
-                    StoreID = retrievedStore.storeNumber,
-                    ManagerID = retrievedManager.managerID,
-                    StoreStreet = retrievedStore.address.street,
-                    StoreCity = retrievedStore.address.city,
-                    StoreState = retrievedStore.address.state,
-                    StoreZip = retrievedStore.address.zip
-                };
-
-
-                if (!ModelState.IsValid)
-                {
-                    return View(nameof(Login));
+                    hasValue = false;  
                 }
+                else
+                {
+                    hasValue = true;
+                }
+                if (hasValue == false)
+                {
+                    if (ManagerID == 0)
+                    {
+                        return RedirectToAction(nameof(InvalidManager));
+                    }
+                    else if (TempData["LoggedManager"] == null)
+                    {
+                        throw new Exception("No temp data for the store. Please ensure the temp data was kept between controllers");
+                    }
+                    else
+                    {
+                        throw new Exception("Something else went wrong with validating data in DetailsAsync in the ManagerController class");
+                    }
+                }
+                else
+                {
+                    if (ManagerID == 0)
+                    {
+                        ManagerID = int.Parse(TempData["LoggedManager"].ToString());
+                    }
+                    else
+                    {
+                        TempData["LoggedManager"] = ManagerID;
+                    }
+                    
+                    Manager retrievedManager = await _repository.GetManagerInformation(int.Parse(TempData["LoggedManager"].ToString()));
+                    Store retrievedStore = await _repository.GetStoreInformation(retrievedManager.storeNumberManaged);
 
-                return View(viewModel);
+                    var viewModel = new ManagerViewModel
+                    {
+                        FirstName = retrievedManager.firstName,
+                        LastName = retrievedManager.lastName,
+                        StoreID = retrievedStore.storeNumber,
+                        ManagerID = retrievedManager.managerID,
+                        StoreStreet = retrievedStore.address.street,
+                        StoreCity = retrievedStore.address.city,
+                        StoreState = retrievedStore.address.state,
+                        StoreZip = retrievedStore.address.zip
+                    };
+                    TempData["LoggedStore"] = retrievedStore.storeNumber;
+
+                    TempData.Keep();
+
+                    if (!ModelState.IsValid)
+                    {
+                        return View(nameof(Login));
+                    }
+
+                    return View(viewModel);
+                }
             }
             catch (InvalidOperationException)
             {
@@ -70,17 +111,27 @@ namespace StoreApp.WebApp.Controllers
         {
             return View(inputManagerID);
         }
-        public async Task<ActionResult> OrderInformationByStore(int storeID)
+        public async Task<ActionResult> OrderInformationByStore()
         {
-            
-            List<BusinessLogic.Objects.Order> storeOrderList = await _repository.GetListAllOrdersForStore(storeID);
-
-            if(ViewBag.LoggedManager == 0)
+            bool hasValue;
+            if (TempData["LoggedManager"] == null || TempData["LoggedStore"] == null)
             {
-                return RedirectToAction(nameof(InvalidManager));
+                hasValue = false;
             }
             else
             {
+                hasValue = true;
+            }
+            if (hasValue == false)
+            {
+                throw new Exception("No temp data for the store. Please ensure the temp data was kept between controllers");
+            }
+            else
+            {
+                int ManagerID = int.Parse(TempData["LoggedManager"].ToString());
+                int StoreID = int.Parse(TempData["LoggedStore"].ToString());
+                List<BusinessLogic.Objects.Order> storeOrderList = await _repository.GetListAllOrdersForStore(StoreID);
+
                 var viewModel = storeOrderList.Select(o => new OrderViewModel
                 {
                     OrderID = o.orderID,
@@ -90,6 +141,16 @@ namespace StoreApp.WebApp.Controllers
                     CustomerName = o.customer.firstName + " " + o.customer.lastName
 
                 });
+                /*
+                TempData.Remove("LoggedManager");
+                TempData.Remove("LoggedStore");
+
+                TempData["LoggedManager"] = ManagerID;
+                TempData["LoggedStore"] = StoreID;
+                */
+
+                TempData.Keep("LoggedManager");
+                TempData.Keep("LoggedStore");
                 return View(viewModel);
             }
 

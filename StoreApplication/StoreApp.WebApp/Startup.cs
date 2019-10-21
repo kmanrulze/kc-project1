@@ -38,7 +38,9 @@ namespace StoreApp.WebApp
             //Repo for data
             services.AddScoped<IRepository, Repository>();
 
-            //Persistent data
+            services.AddSingleton<SingletonGuidService>();
+            services.AddScoped<ScopedGuidService>();
+            services.AddTransient<TransientGuidService>();
 
             services.AddMvc();
             services.AddSession();
