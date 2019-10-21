@@ -1,0 +1,47 @@
+﻿@model StoreApp.WebApp.Models.CreateOrderViewModel
+
+@{
+    ViewData["Title"] = "CreateCart";
+}
+
+<h1>Create</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="CreateOrder">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Product
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Amount
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Products)
+            {
+                <tr>
+                    <td>@(item.name)</td>
+                    <td>@("$" + String.Format("{0:0.00}", item.price))</td>
+                    <td>
+                        <div asp-validation-summary="ModelOnly" class="text-danger" size="5"></div>
+                        <div class="form-group">
+                            <input class="form-control" />
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>

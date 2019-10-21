@@ -28,32 +28,58 @@ namespace StoreApp.WebApp.Controllers
             return View();
         }
 
-        // GET: Order/Create
-        public ActionResult Create()
+        public ActionResult StoreSelect()
         {
-            var viewModel = new CreateOrderViewModel()
+            if (TempData["LoggedCustomer"] != null)
             {
-                Products = _repository.GetListStockedProducts()
-            };
-            return View();
+                TempData.Keep("LoggedCustomer");
+                var viewModel = new StoreViewModel();
+
+                return View(viewModel);
+            }
+            else
+            {
+                throw new Exception("Need to be logged in as customer first");
+            }
+
+
         }
 
         // POST: Order/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(IFormCollection collection)
+        public async Task<ActionResult> StoreSelect(int StoreID)
         {
             try
             {
 
-                // TODO: Add insert logic here
+                if (TempData["LoggedCustomer"] != null)
+                {
+                    TempData.Keep("LoggedCustomer");
+                    TempData["SelectedStore"] = StoreID;
 
-                return RedirectToAction(nameof(Index));
+
+                    //return RedirectToAction("Profile", "Customer");
+                    return RedirectToAction(nameof(CreateCart));
+                }
+                else
+                {
+                    throw new Exception("Need to be logged in as customer first");
+                }
+
+
             }
             catch
             {
                 return View();
             }
+        }
+        public async Task<ActionResult> CreateCart()
+        {
+            int StoreID = int.Parse(TempData["SelectedStore"].ToString());
+            CreateOrderViewModel VMOrderView = new CreateOrderViewModel();
+            VMOrderView.Products = await _repository.GetListStockedProductsForStoreAsync(StoreID);
+            return View(VMOrderView);
         }
 
         // GET: Order/Edit/5

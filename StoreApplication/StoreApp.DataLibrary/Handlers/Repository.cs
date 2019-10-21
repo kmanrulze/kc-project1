@@ -210,13 +210,20 @@ namespace StoreApp.DataLibrary.Entities
             }
         }
 
-        public List<BusinessLogic.Objects.Product> GetListStockedProducts()
+        public async Task<List<BusinessLogic.Objects.Product>> GetListStockedProductsForStoreAsync(int StoreID)
         {
             List<BusinessLogic.Objects.Product> BLProdStockList = new List<BusinessLogic.Objects.Product>();
+            List<InventoryProduct> CTXInventory = await _context.InventoryProduct.AsNoTracking().Where(ip => ip.StoreNumber == StoreID).ToListAsync();
 
             foreach(Entities.Product CTXProd in _context.Product)
             {
-                //BLProdStockList.Add(ParseHandler.ContextProductStockToLogicProduct(CTXProd));
+                foreach(Entities.InventoryProduct CTXInvProd in CTXInventory)
+                {
+                    if (CTXInvProd.InventoryProductId == CTXProd.ProductTypeId)
+                    {
+                        BLProdStockList.Add(ParseHandler.ContextProductInformationToLogicProduct(CTXProd));
+                    }
+                }
             }
             return BLProdStockList;
         }

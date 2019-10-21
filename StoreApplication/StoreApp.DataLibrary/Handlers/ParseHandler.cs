@@ -158,13 +158,13 @@ namespace StoreApp.DataLibrary.Handlers
 
             return BLProduct;
         }
-
-        internal static BusinessLogic.Objects.Product ContextProductStockToLogicProduct(Entities.Product CTXProd)
+        internal static BusinessLogic.Objects.Product ContextProductInformationToLogicProduct(Entities.Product CTXProd)
         {
             BusinessLogic.Objects.Product BLProd = new BusinessLogic.Objects.Product();
 
             BLProd.productTypeID = CTXProd.ProductTypeId;
             BLProd.name = CTXProd.ProductName;
+            BLProd.price = CTXProd.ProductPrice;
 
             return BLProd;
         }

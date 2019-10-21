@@ -1,13 +1,33 @@
 INSERT INTO app.Product
 VALUES
-    ('Dice Set (Pathfinder)', 7.00),
+    ('Dice Set (Blue)', 7.00),
+	('Dice Set (Red)', 7.00),
+	('Dice Set (Metal Blue)', 10.00),
+	('Dice Set (Metal Red)', 10.00),
     ('Pathfinder Core Rulebook', 49.99),
-    ('Dungeon Masters Screen', 24.99);
+    ('Dungeon Masters Screen', 24.99),
+	('Bard Figurine (Blank)', 15.00),
+	('Bard Figurine (Painted)', 30.00),
+	('Wizard Figurine (Blank)', 15.00),
+	('Wizard Figurine (Painted)', 30.00),
+	('Ranger Figurine (Blank)', 15.00),
+	('Ranger Figurine (Painted)', 30.00),
+	('Druid Figurine (Blank)', 15.00),
+	('Druid Figurine (Painted)', 30.00),
+	('Sorcerer Figurine (Blank)', 15.00),
+	('Sorcerer Figurine (Painted)', 30.00),
+	('Rogue Figurine (Blank)', 15.00),
+	('Rogue Figurine (Painted)', 30.00),
+	('Barbarian Figurine (Blank)', 15.00),
+	('Barbarian Figurine (Painted)', 30.00),
+	('Bestiary Figurine Pack 20 ct (Blank)', 90.00),
+	('Bestiary Figurine Pack 20 ct (Painted)', 175.00);
 INSERT INTO app.Customer
 VALUES
-    ('Kevin', 'McCallister', '671 Lincoln Ave', 'Winnetka', 'IL', 60093),
-    ('Long', 'Silvers', '700 W Abram St', 'Arlington', 'TX', 76013),
-    ('Nancy', 'Drew', '9909 Mystery Ave', 'Springfield', 'MO', '65619');
+    ('Kevin', 'McCallister', '671 Lincoln Ave', 'Winnetka', 'IL', '60093'),
+    ('Long', 'Silvers', '700 W Abram St', 'Arlington', 'TX', '76013'),
+    ('Nancy', 'Drew', '9909 Mystery Ave', 'Springfield', 'MO', '65619')
+	('Electra', 'Pleiades', '12 Scales St', 'Scaletip', 'AS', '77777');
 
 -- More names for testing if needed
 --('Phil','Young'),
