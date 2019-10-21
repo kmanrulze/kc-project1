@@ -191,16 +191,22 @@ namespace StoreApp.DataLibrary.Entities
             }
         }
 
-        public async Task<BusinessLogic.Objects.Customer> GetLastCustomerWithFirstLast(string firstName, string lastName)
+        public BusinessLogic.Objects.Customer GetLastCustomerWithFirstLast(string firstName, string lastName)
         {
             try
             {
-                Customer CTXCustomer = await _context.Customer.AsNoTracking().LastAsync(c => c.FirstName == firstName && c.LastName == lastName);
-                return ParseHandler.ContextCustomerToLogicCustomer(CTXCustomer);
+                Customer CTXCust = new Customer();
+                //Customer CTXCustomer = await _context.Customer.Where(c => c.FirstName == firstName).LastAsync();
+                foreach (Customer CTXCustomer in _context.Customer.Where(c => c.FirstName == firstName && c.LastName == lastName))
+                {
+                    CTXCust = CTXCustomer;
+                }
+                return ParseHandler.ContextCustomerToLogicCustomer(CTXCust);
             }
-            catch
+
+            catch (InvalidOperationException e)
             {
-                throw new Exception("Failed to get the new customer with first name: " + firstName + "\nand lastName: " + lastName + "\n");
+                throw new Exception("Failed to get the new customer with first name: " + firstName + "\nand lastName: " + lastName + "\nException: " + e.Message);
             }
         }
     }

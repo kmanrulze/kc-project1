@@ -34,7 +34,7 @@ namespace StoreApp.WebApp.Controllers
         }
 
         // GET: Manager/Details/
-        public async Task<ActionResult> DetailsAsync(int ManagerID)
+        public async Task<ActionResult> Details(int ManagerID)
         {
             bool hasValue;
             //Makes sure tempdata is clear

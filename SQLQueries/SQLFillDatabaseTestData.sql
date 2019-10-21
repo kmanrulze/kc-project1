@@ -1,8 +1,8 @@
 INSERT INTO app.Product
 VALUES
-    ('Burgers'),
-    ('Fries'),
-    ('Soda');
+    ('Dice Set (Pathfinder)'),
+    ('Pathfinder Core Rulebook'),
+    ('Dungeon Masters Screen');
 INSERT INTO app.Customer
 VALUES
     ('Kevin', 'McCallister', '671 Lincoln Ave', 'Winnetka', 'IL', 60093),

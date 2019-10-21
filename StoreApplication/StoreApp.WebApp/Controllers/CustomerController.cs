@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using StoreApp.DataLibrary.Entities;
 using StoreApp.BusinessLogic.Objects;
 using StoreApp.WebApp.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace StoreApp.WebApp.Controllers
 {
@@ -26,7 +27,7 @@ namespace StoreApp.WebApp.Controllers
         }
 
         // GET: Customer/Profile : Displays stuff from the given ID
-        public async Task<ActionResult> ProfileAsync(int CustomerID)
+        public async Task<ActionResult> Profile(int CustomerID)
         {
             bool hasValue;
             try
@@ -116,13 +117,13 @@ namespace StoreApp.WebApp.Controllers
         // POST: Customer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateProfileAsync(CreateCustomerViewModel VMCustomer)
+        public async Task<ActionResult> Create(CreateCustomerViewModel VMCustomer)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(nameof(Login));
+                    return View(VMCustomer);
                 }
 
                 var customer = new BusinessLogic.Objects.Customer
@@ -139,14 +140,21 @@ namespace StoreApp.WebApp.Controllers
                 };
 
                 await _repository.AddCustomerAsync(customer);
-                BusinessLogic.Objects.Customer newCustomer = await _repository.GetLastCustomerWithFirstLast(VMCustomer.FirstName, VMCustomer.LastName);
-                TempData["LoggedCustomer"] = newCustomer.customerID;
-
-                return RedirectToAction(nameof(ProfileAsync));
+                try
+                {
+                    BusinessLogic.Objects.Customer newCustomer = _repository.GetLastCustomerWithFirstLast(VMCustomer.FirstName, VMCustomer.LastName);
+                    TempData["LoggedCustomer"] = newCustomer.customerID;
+                    return RedirectToAction(nameof(Profile));
+                }
+                catch (InvalidOperationException e)
+                {
+                    ModelState.AddModelError("Failed to get the new added customer's ID", e.Message);
+                    return View(VMCustomer);
+                }  
             }
             catch
             {
-                return View();
+                return View(VMCustomer);
             }
         }
 

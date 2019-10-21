@@ -11,6 +11,7 @@ namespace StoreApp.WebApp.Models
     public class ManagerViewModel
     {
         [Required]
+        [TempData]
         public int ManagerID { get; set; }
         public int StoreID { get; set; }
         public string FirstName { get; set; }
