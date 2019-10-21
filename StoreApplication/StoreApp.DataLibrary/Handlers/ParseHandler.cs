@@ -165,6 +165,8 @@ namespace StoreApp.DataLibrary.Handlers
 
             BLProd.productTypeID = CTXProd.ProductTypeId;
             BLProd.name = CTXProd.ProductName;
+
+            return BLProd;
         }
     }
 }

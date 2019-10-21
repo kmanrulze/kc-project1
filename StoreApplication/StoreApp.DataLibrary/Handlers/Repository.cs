@@ -210,14 +210,15 @@ namespace StoreApp.DataLibrary.Entities
             }
         }
 
-        public Task<List<BusinessLogic.Objects.Product>> GetListStockedProducts()
+        public List<BusinessLogic.Objects.Product> GetListStockedProducts()
         {
-            List<Product> BLProdStockList = new List<Product>();
+            List<BusinessLogic.Objects.Product> BLProdStockList = new List<BusinessLogic.Objects.Product>();
 
             foreach(Entities.Product CTXProd in _context.Product)
             {
-                BLProdStockList.Add(ParseHandler.ContextProductStockToLogicProduct(CTXProd));
+                //BLProdStockList.Add(ParseHandler.ContextProductStockToLogicProduct(CTXProd));
             }
+            return BLProdStockList;
         }
     }
 }

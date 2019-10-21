@@ -33,7 +33,7 @@ namespace StoreApp.WebApp.Controllers
         {
             var viewModel = new CreateOrderViewModel()
             {
-                Products = await _repository.GetListStockedProducts()
+                Products = _repository.GetListStockedProducts()
             };
             return View();
         }
