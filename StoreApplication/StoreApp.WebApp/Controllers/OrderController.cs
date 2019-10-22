@@ -48,15 +48,17 @@ namespace StoreApp.WebApp.Controllers
         // POST: Order/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> StoreSelect(int StoreID)
+        public ActionResult StoreSelect(int StoreID)
         {
             try
             {
 
                 if (TempData["LoggedCustomer"] != null)
                 {
-                    TempData.Keep("LoggedCustomer");
                     TempData["SelectedStore"] = StoreID;
+
+                    TempData.Keep("SelectedStore");
+                    TempData.Keep("LoggedCustomer");
 
 
                     //return RedirectToAction("Profile", "Customer");
@@ -77,15 +79,30 @@ namespace StoreApp.WebApp.Controllers
         public async Task<ActionResult> CreateCart()
         {
             int StoreID = int.Parse(TempData["SelectedStore"].ToString());
+            TempData.Keep("SelectedStore");
+            TempData.Keep("LoggedCustomer");
             CreateOrderViewModel VMOrderView = new CreateOrderViewModel();
             VMOrderView.Products = await _repository.GetListStockedProductsForStoreAsync(StoreID);
             return View(VMOrderView);
         }
-
-        // GET: Order/Edit/5
-        public ActionResult Edit(int id)
+        // POST : Creates the order
+        [HttpPost]
+        public ActionResult CreateOrder(CreateOrderViewModel VMOrderCart)
         {
-            return View();
+            int CustomerID = int.Parse(TempData["LoggedCustomer"].ToString());
+            int StoreID = int.Parse(TempData["SelectedStore"].ToString());
+            Order BLOrd = new Order();
+            BLOrd.customer.customerID = CustomerID;
+            BLOrd.storeLocation.storeNumber = StoreID;
+
+            foreach(var item in VMOrderCart.Products)
+            {
+
+            }
+            _repository.AddPlacedOrderToCustomer(CustomerID, BLOrd);
+
+
+            return View(VMOrderCart);
         }
 
         // POST: Order/Edit/5

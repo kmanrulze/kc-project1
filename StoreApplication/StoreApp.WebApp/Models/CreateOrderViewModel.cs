@@ -15,4 +15,5 @@ namespace StoreApp.WebApp.Models
         //public List<string> ProdProductNames { get; set; }
 
     }
+
 }

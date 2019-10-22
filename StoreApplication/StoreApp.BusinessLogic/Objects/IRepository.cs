@@ -18,5 +18,6 @@ namespace StoreApp.BusinessLogic.Objects
         Task<List<BusinessLogic.Objects.Order>> GetListAllOrdersFromCustomer(int customerID);
         public Customer GetLastCustomerWithFirstLast(string firstName, string lastName);
         Task<List<BusinessLogic.Objects.Product>> GetListStockedProductsForStoreAsync(int StoreID);
+        public void AddPlacedOrderToCustomer(int customerID, Order BLOrd);
     }
 }

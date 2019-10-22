@@ -227,5 +227,27 @@ namespace StoreApp.DataLibrary.Entities
             }
             return BLProdStockList;
         }
+
+        public void AddPlacedOrderToCustomer(int customerID, BusinessLogic.Objects.Order BLOrd)
+        {
+            try
+            {
+                _context.Orders.Add(ParseHandler.LogicOrderToContextOrder(BLOrd));
+                _context.SaveChanges();
+                Order BLNewOrder = ParseHandler.ContextOrderToLogicOrder(_context.Orders.OrderByDescending(s => s.OrderId).First(o => o.CustomerId == customerID));
+                int newOrderID = BLNewOrder.orderID;
+
+                foreach (BusinessLogic.Objects.Product BLProd in BLOrd.customerProductList)
+                {
+                    _context.OrderProduct.Add(ParseHandler.LogicProductToContextOrderProduct(newOrderID, BLProd));
+                }
+                _context.SaveChanges();
+            }
+            catch
+            {
+                throw new Exception("Unable to commit the order to the database");
+            }
+            List<Entities.OrderProduct> CTXProdList = new List<OrderProduct>();
+        }
     }
 }

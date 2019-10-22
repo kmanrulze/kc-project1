@@ -36,7 +36,7 @@ namespace StoreApp.DataLibrary.Handlers
         /// <param name="orderID"></param>
         /// <param name="BLProd"></param>
         /// <returns></returns>
-        public static OrderProduct LogicProductToContextOrderProduct(BusinessLogic.Objects.Order BLOrder, int orderID, BusinessLogic.Objects.Product BLProd)
+        public static OrderProduct LogicProductToContextOrderProduct(int orderID, BusinessLogic.Objects.Product BLProd)
         {
             Entities.OrderProduct CTXOrdProd = new OrderProduct();
 
@@ -110,6 +110,7 @@ namespace StoreApp.DataLibrary.Handlers
             Orders CTXOrder = new Orders();
 
             CTXOrder.CustomerId = BLorder.customer.customerID;
+            CTXOrder.StoreNumber = BLorder.storeLocation.storeNumber;
 
             return CTXOrder;
         }
