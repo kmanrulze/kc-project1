@@ -139,8 +139,8 @@ namespace StoreApp.WebApp.Controllers
             {
                 _repository.AddPlacedOrderToCustomerAsync(CustomerID, BLOrd);
             }
-            
 
+            TempData.Keep("LoggedCustomer");
 
             return View(VMOrderCart);
         }

@@ -11,7 +11,7 @@ namespace StoreApp.WebApp.Models
     {
         [DisplayName("Order ID")]
         public int OrderID { get; set; }
-        [DisplayName("Store Location Number")]
+        [DisplayName("Store Location ID")]
         public int StoreNumber { get; set; }
         [DisplayName("Customer ID")]
         public int CustomerID { get; set; }

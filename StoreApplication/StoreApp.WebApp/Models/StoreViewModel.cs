@@ -12,7 +12,7 @@ namespace StoreApp.WebApp.Models
     {
         [Required]
         [TempData]
-        [DisplayName("Store Location Number")]
+        [DisplayName("Store Location ID")]
         public int StoreID { get; set; }
     }
 }

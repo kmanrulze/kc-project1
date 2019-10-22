@@ -14,6 +14,7 @@ namespace StoreApp.WebApp.Models
         [TempData]
         [DisplayName("Manager ID")]
         public int ManagerID { get; set; }
+        [DisplayName("Store Location ID")]
         public int StoreID { get; set; }
         [DisplayName("First Name")]
         public string FirstName { get; set; }

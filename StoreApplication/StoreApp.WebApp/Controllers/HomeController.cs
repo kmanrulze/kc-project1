@@ -37,6 +37,7 @@ namespace StoreApp.WebApp.Controllers
             ViewData["scoped"] = scopedGUID;
             ViewData["transient"] = transientGUID;
             */
+            TempData.Clear();
 
             return View();
         }

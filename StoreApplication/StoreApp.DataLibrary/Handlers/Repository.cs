@@ -236,7 +236,7 @@ namespace StoreApp.DataLibrary.Entities
                 _context.SaveChanges();
                 Order BLNewOrder = ParseHandler.ContextOrderToLogicOrder(_context.Orders.OrderByDescending(s => s.OrderId).First(o => o.CustomerId == customerID));
                 int newOrderID = BLNewOrder.orderID;
-                BLNewOrder.storeLocation = await GetStoreInformation(BLNewOrder.storeLocation.storeNumber);
+                //BLNewOrder.storeLocation = await GetStoreInformation(BLNewOrder.storeLocation.storeNumber);
 
                 foreach (BusinessLogic.Objects.Product BLProd in BLOrd.customerProductList)
                 {
@@ -244,7 +244,7 @@ namespace StoreApp.DataLibrary.Entities
                 }
                 //In the future, put the update inventory function before the savechanges for inventory validation purposes
                 _context.SaveChanges();
-                await UpdateInventoryFromPlacedOrder(BLNewOrder);
+                //await UpdateInventoryFromPlacedOrder(BLNewOrder);
                 
             }
             catch

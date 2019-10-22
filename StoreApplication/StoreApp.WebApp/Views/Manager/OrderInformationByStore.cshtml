@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<StoreApp.WebApp.Models.OrderViewModel>
 
 @{
-    ViewData["Title"] = "OrderInformationByStore";
+    ViewData["Title"] = "Store Order History";
 }
 
-<h1>OrderInformationByStore</h1>
+<h1>Store Order History</h1>
 
 <p>
     <a asp-action="Details">Back to Store Information</a>
@@ -50,10 +50,6 @@
                 {
                     @items <br/>
                 }
-                @*string.Join(",\r", item.Products)*@
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }
