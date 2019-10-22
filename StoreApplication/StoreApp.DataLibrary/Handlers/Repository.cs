@@ -219,7 +219,7 @@ namespace StoreApp.DataLibrary.Entities
             {
                 foreach(Entities.InventoryProduct CTXInvProd in CTXInventory)
                 {
-                    if (CTXInvProd.InventoryProductId == CTXProd.ProductTypeId)
+                    if (CTXInvProd.ProductTypeId == CTXProd.ProductTypeId)
                     {
                         BLProdStockList.Add(ParseHandler.ContextProductInformationToLogicProduct(CTXProd));
                     }

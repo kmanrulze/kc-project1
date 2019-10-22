@@ -26,7 +26,7 @@ INSERT INTO app.Customer
 VALUES
     ('Kevin', 'McCallister', '671 Lincoln Ave', 'Winnetka', 'IL', '60093'),
     ('Long', 'Silvers', '700 W Abram St', 'Arlington', 'TX', '76013'),
-    ('Nancy', 'Drew', '9909 Mystery Ave', 'Springfield', 'MO', '65619')
+    ('Nancy', 'Drew', '9909 Mystery Ave', 'Springfield', 'MO', '65619'),
 	('Electra', 'Pleiades', '12 Scales St', 'Scaletip', 'AS', '77777');
 
 -- More names for testing if needed
@@ -38,9 +38,10 @@ VALUES
 
 INSERT INTO app.Store
 VALUES
-    ('99 Wayford Way', 'Arlington', 'TX', 76013),
-    ('420 Chill Place', 'Denver', 'CO', 80239),
-    ('99 Whammy Drive', 'Cena', 'WI', 84847);
+    ('99 Wayford Way', 'Arlington', 'TX', '76013'),
+    ('420 Chill Place', 'Denver', 'CO', '80239'),
+    ('99 Whammy Drive', 'Cena', 'WI', '84847'),
+    ('2020 Warehouse Way', 'Loveland', 'CO', '80631');
 INSERT INTO app.Orders
 VALUES
     (1,1),
@@ -88,12 +89,37 @@ VALUES
     (3, 16, 25),
     (3, 19, 15),
     (3, 20, 10);
+INSERT INTO app.InventoryProduct
+VALUES
+    (4, 1, 30),
+    (4, 2, 30),
+    (4, 3, 30),
+    (4, 4, 30),
+    (4, 5, 30),
+    (4, 6, 30),
+    (4, 7, 30),
+    (4, 8, 30),
+    (4, 9, 30),
+    (4, 10, 30),
+    (4, 11, 30),
+    (4, 12, 30),
+    (4, 13, 30),
+    (4, 14, 30),
+    (4, 15, 30),
+    (4, 16, 30),
+    (4, 17, 30),
+    (4, 18, 30),
+    (4, 19, 30),
+    (4, 20, 30),
+    (4, 21, 30),
+    (4, 22, 30);
 
 INSERT INTO app.Manager
 VALUES
     (1, 'John', 'Johnston'),
     (2, 'Man', 'Manston'),
-    (3, 'Big', 'Largeston');
+    (3, 'Big', 'Largeston'),
+    (4, 'Cave', 'Johnson');
 
 SELECT *
 FROM app.Customer;

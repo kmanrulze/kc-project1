@@ -16,21 +16,21 @@ CREATE TABLE app.Store
     StoreNumber INT IDENTITY(1,1) PRIMARY KEY,
     Street NVARCHAR(50) NOT NULL,
     City NVARCHAR(25) NOT NULL,
-    State NVARCHAR(25) NOT NULL,
+    State NVARCHAR(2) NOT NULL,
     Zip NVARCHAR(5) NOT NULL
 );
 CREATE TABLE app.Product
 (
     ProductTypeID INT IDENTITY(1,1) PRIMARY KEY,
     ProductName NVARCHAR(50) NOT NULL,
-	ProductPrice MONEY NOT NULL
+	ProductPrice MONEY NOT NULL CHECK (ProductPrice >= 0)
 );
 CREATE TABLE app.InventoryProduct
 (
 	InventoryProductID INT IDENTITY (1,1) PRIMARY KEY,
     StoreNumber INT FOREIGN KEY REFERENCES app.Store(StoreNumber) NOT NULL,
     ProductTypeID INT FOREIGN KEY REFERENCES app.Product(ProductTypeID) NOT NULL,
-    ProductAmount INT NOT NULL
+    ProductAmount INT NOT NULL CHECK (ProductAmount >= 0)
 );
 CREATE TABLE app.Orders
 (
@@ -43,7 +43,7 @@ CREATE TABLE app.OrderProduct
 	OrderProductID INT IDENTITY(1,1) PRIMARY KEY,
     OrderID INT FOREIGN KEY REFERENCES app.Orders(OrderID) NOT NULL,
     ProductTypeID INT FOREIGN KEY REFERENCES app.Product(ProductTypeID) NOT NULL,
-    ProductAmount INT NOT NULL
+    ProductAmount INT NOT NULL CHECK (ProductAmount >= 0)
 );
 CREATE TABLE app.Manager
 (
