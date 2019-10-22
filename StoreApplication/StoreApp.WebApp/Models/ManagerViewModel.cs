@@ -12,13 +12,20 @@ namespace StoreApp.WebApp.Models
     {
         [Required]
         [TempData]
+        [DisplayName("Manager ID")]
         public int ManagerID { get; set; }
         public int StoreID { get; set; }
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
+        [DisplayName("Street")]
         public string StoreStreet { get; set; }
+        [DisplayName("City")]
         public string StoreCity { get; set; }
+        [DisplayName("State")]
         public string StoreState { get; set; }
+        [DisplayName("Zip")]
         public string StoreZip { get; set; }
     }
 }

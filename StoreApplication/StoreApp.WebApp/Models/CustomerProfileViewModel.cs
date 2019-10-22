@@ -13,15 +13,21 @@ namespace StoreApp.WebApp.Models
     {
         [Required]
         [TempData]
+        [DisplayName("Customer ID")]
         public int CustomerID { get; set; }
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public string Zip { get; set; }
+        [DisplayName("Products")]
         public List<Product> CustomerProduct { get; set; }
+        [DisplayName("Order ID")]
         public List<int> CustomerOrderIDs { get; set; }
+        [DisplayName("Store Location Number")]
         public List<int> OrderStore { get; set; }
         public List<Order> CustomerOrders { get; set; }
     }

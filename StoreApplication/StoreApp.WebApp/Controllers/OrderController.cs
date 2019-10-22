@@ -16,18 +16,8 @@ namespace StoreApp.WebApp.Controllers
         {
             _repository = repository;
         }
-        // GET: Order
-        public ActionResult Index()
-        {
-            return View();
-        }
 
-        // GET: Order/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
+        //GET Store selected
         public ActionResult StoreSelect()
         {
             if (TempData["LoggedCustomer"] != null)
@@ -45,7 +35,7 @@ namespace StoreApp.WebApp.Controllers
 
         }
 
-        // POST: Order/Create
+        // POST: Order/Create once store is selected
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult StoreSelect(int StoreID)
@@ -76,30 +66,49 @@ namespace StoreApp.WebApp.Controllers
                 return View();
             }
         }
+        // GET the store and the products it has to display for an order to be created via model binding
         public async Task<ActionResult> CreateCart()
         {
-            int StoreID = int.Parse(TempData["SelectedStore"].ToString());
-            TempData.Keep("SelectedStore");
-            TempData.Keep("LoggedCustomer");
-            CreateOrderViewModel VMOrderView = new CreateOrderViewModel();
-            VMOrderView.Products = new List<RequestedProducts>();
-
-            List<Product> StoreProd = await _repository.GetListStockedProductsForStoreAsync(StoreID);
-            foreach(Product BLProd in StoreProd)
+            if (TempData["SelectedStore"] != null && TempData["LoggedCustomer"] != null)
             {
-                VMOrderView.Products.Add(new RequestedProducts()
+                int StoreID = int.Parse(TempData["SelectedStore"].ToString());
+                TempData.Keep("SelectedStore");
+                TempData.Keep("LoggedCustomer");
+                CreateOrderViewModel VMOrderView = new CreateOrderViewModel();
+                VMOrderView.Products = new List<RequestedProducts>();
+
+                List<Product> StoreProd = await _repository.GetListStockedProductsForStoreAsync(StoreID);
+                foreach (Product BLProd in StoreProd)
                 {
-                    ProductID = BLProd.productTypeID,
-                    ProductAmount = BLProd.amount,
-                    ProductName = BLProd.name,
-                    ProductPrice = BLProd.price
-                }) ;
+                    VMOrderView.Products.Add(new RequestedProducts()
+                    {
+                        ProductID = BLProd.productTypeID,
+                        ProductAmount = BLProd.amount,
+                        ProductName = BLProd.name,
+                        ProductPrice = BLProd.price
+                    });
+                }
+                return View(VMOrderView);
             }
-            return View(VMOrderView);
+            else if (TempData["SelectedStore"] == null || TempData["LoggedCustomer"] == null)
+            {
+                if(TempData["SelectedStore"] == null)
+                {
+                    throw new Exception("There is no selected store in tempdata. You can only select a store to order from if logged in as a customer.");
+                }
+                else
+                {
+                    throw new Exception("There is no logged in customer within tempdata");
+                }
+            }
+            else
+            {
+                throw new Exception("Something went wrong not related to the tempdata");
+            }
         }
-        // POST : Creates the order
+        // POST : Actually creates the order
         [HttpPost]
-        public ActionResult CreateOrder(CreateOrderViewModel VMOrderCart)
+        public ActionResult CreatedOrder(CreateOrderViewModel VMOrderCart)
         {
             int CustomerID = int.Parse(TempData["LoggedCustomer"].ToString());
             int StoreID = int.Parse(TempData["SelectedStore"].ToString());
@@ -128,7 +137,7 @@ namespace StoreApp.WebApp.Controllers
             }
             else
             {
-                _repository.AddPlacedOrderToCustomer(CustomerID, BLOrd);
+                _repository.AddPlacedOrderToCustomerAsync(CustomerID, BLOrd);
             }
             
 

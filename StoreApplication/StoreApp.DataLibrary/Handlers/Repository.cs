@@ -228,7 +228,7 @@ namespace StoreApp.DataLibrary.Entities
             return BLProdStockList;
         }
 
-        public void AddPlacedOrderToCustomer(int customerID, BusinessLogic.Objects.Order BLOrd)
+        public async Task AddPlacedOrderToCustomerAsync(int customerID, BusinessLogic.Objects.Order BLOrd)
         {
             try
             {
@@ -236,17 +236,69 @@ namespace StoreApp.DataLibrary.Entities
                 _context.SaveChanges();
                 Order BLNewOrder = ParseHandler.ContextOrderToLogicOrder(_context.Orders.OrderByDescending(s => s.OrderId).First(o => o.CustomerId == customerID));
                 int newOrderID = BLNewOrder.orderID;
+                BLNewOrder.storeLocation = await GetStoreInformation(BLNewOrder.storeLocation.storeNumber);
 
                 foreach (BusinessLogic.Objects.Product BLProd in BLOrd.customerProductList)
                 {
                     _context.OrderProduct.Add(ParseHandler.LogicProductToContextOrderProduct(newOrderID, BLProd));
                 }
+                //In the future, put the update inventory function before the savechanges for inventory validation purposes
                 _context.SaveChanges();
+                await UpdateInventoryFromPlacedOrder(BLNewOrder);
+                
             }
             catch
             {
                 throw new Exception("Unable to commit the order to the database");
             }
+        }
+
+        public async Task UpdateInventoryFromPlacedOrder(Order BLOrd)
+        {
+            try
+            {
+                var CTXOrdProdList = await _context.OrderProduct.Where(o => o.OrderId == BLOrd.orderID).ToListAsync();
+
+#warning Currently nonfunctional when called by order placer. Throws exception due to the line below for some reason. Fix later. 
+                List<InventoryProduct> CTXInvProdList = await _context.InventoryProduct.ToListAsync();
+
+                foreach (InventoryProduct CTXIP in CTXInvProdList)
+                {
+                    if (CTXIP.StoreNumber == BLOrd.storeLocation.storeNumber)
+                    {
+                        CTXInvProdList.Add(CTXIP);
+                    }
+                }
+                //BusinessLogic.Objects.Order BLOrder = ParseHandler.ContextOrderToLogicOrder(CTXOrder);
+
+                if (CTXOrdProdList != null)
+                {
+                    foreach (Entities.OrderProduct CTXOrdProd in CTXOrdProdList)
+                    {
+                        foreach (Entities.InventoryProduct CTXInvProd in CTXInvProdList)
+                        {
+                            if (CTXOrdProd.OrderProductId == CTXInvProd.InventoryProductId)
+                            {
+                                if (CTXInvProd.ProductAmount - CTXOrdProd.ProductAmount == 0)
+                                {
+                                    _context.InventoryProduct.Remove(CTXInvProd);
+                                }
+                                else
+                                {
+                                    CTXInvProd.ProductAmount = CTXInvProd.ProductAmount - CTXOrdProd.ProductAmount;
+                                }
+                            }
+                        }
+                    }
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to update inventory from order input");
+            }
+
+
         }
     }
 }

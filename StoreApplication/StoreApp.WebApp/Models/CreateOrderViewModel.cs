@@ -19,8 +19,11 @@ namespace StoreApp.WebApp.Models
     public class RequestedProducts
     {
         public int ProductID { get; set; }
+        [DisplayName("Order Amount Wanted")]
         public int ProductAmount { get; set; }
+        [DisplayName("Name of Product")]
         public string ProductName { get; set; }
+        [DisplayName("Price")]
         public decimal ProductPrice { get; set; }
     }
 
