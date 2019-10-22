@@ -82,7 +82,19 @@ namespace StoreApp.WebApp.Controllers
             TempData.Keep("SelectedStore");
             TempData.Keep("LoggedCustomer");
             CreateOrderViewModel VMOrderView = new CreateOrderViewModel();
-            VMOrderView.Products = await _repository.GetListStockedProductsForStoreAsync(StoreID);
+            VMOrderView.Products = new List<RequestedProducts>();
+
+            List<Product> StoreProd = await _repository.GetListStockedProductsForStoreAsync(StoreID);
+            foreach(Product BLProd in StoreProd)
+            {
+                VMOrderView.Products.Add(new RequestedProducts()
+                {
+                    ProductID = BLProd.productTypeID,
+                    ProductAmount = BLProd.amount,
+                    ProductName = BLProd.name,
+                    ProductPrice = BLProd.price
+                }) ;
+            }
             return View(VMOrderView);
         }
         // POST : Creates the order
@@ -92,14 +104,33 @@ namespace StoreApp.WebApp.Controllers
             int CustomerID = int.Parse(TempData["LoggedCustomer"].ToString());
             int StoreID = int.Parse(TempData["SelectedStore"].ToString());
             Order BLOrd = new Order();
+
+
             BLOrd.customer.customerID = CustomerID;
             BLOrd.storeLocation.storeNumber = StoreID;
 
             foreach(var item in VMOrderCart.Products)
             {
-
+                if (item.ProductAmount != 0)
+                {
+                    BLOrd.customerProductList.Add(new Product()
+                    {
+                        name = item.ProductName,
+                        amount = item.ProductAmount,
+                        price = item.ProductPrice,
+                        productTypeID = item.ProductID
+                    });
+                }
             }
-            _repository.AddPlacedOrderToCustomer(CustomerID, BLOrd);
+            if (BLOrd.customerProductList.Count() == 0)
+            {
+                //invalid order
+            }
+            else
+            {
+                _repository.AddPlacedOrderToCustomer(CustomerID, BLOrd);
+            }
+            
 
 
             return View(VMOrderCart);

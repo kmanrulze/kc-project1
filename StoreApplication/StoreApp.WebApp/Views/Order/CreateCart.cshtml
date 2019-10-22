@@ -4,44 +4,47 @@
     ViewData["Title"] = "CreateCart";
 }
 
-<h1>Create</h1>
+<h1>CreateCart</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-action="CreateOrder">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <table class="table" style="width:100%">
-        <thead>
-            <tr>
-                <th width="70%">
-                    Product
-                </th>
-                <th width="20%">
-                    Price
-                </th>
-                <th width="10%">
-                    Amount
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Products)
-            {
+<h4>CreateOrderViewModel</h4>
+<hr />
+<div class="row">
+    <form asp-action="CreateOrder">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <table class="table" style="width:100%">
+            <thead>
                 <tr>
-                    <td>@(item.name)</td>
-                    <td>@("$" + String.Format("{0:0.00}", item.price))</td>
-                    <td>
-                        <div asp-validation-summary="ModelOnly" class="text-danger" ></div>
-                        <div class="form-group">
-                            <input class="form-control" asp-for="Products[item.productTypeID].productTypeID"/>
-                        </div>
-                    </td>
+                    <th width="70%">
+                        Product
+                    </th>
+                    <th width="20%">
+                        Price
+                    </th>
+                    <th width="10%">
+                        Amount
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
-    </div>
-</form>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Products.Count; i++)
+                {
+                    @Html.HiddenFor(n => n.Products[i].ProductName)
+                    @Html.HiddenFor(n => n.Products[i].ProductID)
+                    <tr>
+                        <td>@Html.DisplayFor(n => n.Products[i].ProductName)</td>
+                        <td>@Html.DisplayFor(n => n.Products[i].ProductPrice)</td>
+                        <td>@Html.TextAreaFor(n => n.Products[i].ProductAmount)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

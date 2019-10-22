@@ -247,7 +247,6 @@ namespace StoreApp.DataLibrary.Entities
             {
                 throw new Exception("Unable to commit the order to the database");
             }
-            List<Entities.OrderProduct> CTXProdList = new List<OrderProduct>();
         }
     }
 }
