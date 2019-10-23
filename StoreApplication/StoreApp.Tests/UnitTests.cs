@@ -12,11 +12,8 @@ namespace StoreApp.Tests
 {
     public class UnitTests
     {
-        private readonly IRepository _repository;
-        public UnitTests(IRepository repository)
-        {
-            _repository = repository;
-        }
+        private static StoreApplicationContext context = new StoreApplicationContext();
+        private Repository _repository = new Repository(context);
 
         /// <summary>
         /// Test to determine if the customer data is retrieved from a proper ID
@@ -27,6 +24,14 @@ namespace StoreApp.Tests
         [InlineData(2)]
         public async Task CheckGetCustomerReturnsProperValuesAsync(int testID)
         {
+            //string connectionString = _repository.GetConnectionString();
+            //DbContextOptions<StoreApplicationContext> options = new DbContextOptionsBuilder<StoreApplicationContext>()
+            //    .UseSqlServer(connectionString)
+            //    .Options;
+
+            //using var context = new StoreApplicationContext(options);
+
+
             BusinessLogic.Objects.Customer testCustomer = new BusinessLogic.Objects.Customer();
 
             testCustomer = await _repository.GetCustomerByID(testID);

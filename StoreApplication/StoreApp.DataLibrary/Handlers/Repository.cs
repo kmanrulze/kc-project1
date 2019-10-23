@@ -18,6 +18,7 @@ namespace StoreApp.DataLibrary.Entities
         {
             _context = context;
         }
+        
 
         public async Task<IEnumerable<BusinessLogic.Objects.Customer>> GetAllCustomersAsync()
         {
