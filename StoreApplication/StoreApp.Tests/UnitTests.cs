@@ -12,6 +12,7 @@ namespace StoreApp.Tests
 {
     public class UnitTests
     {
+        /*
         private static StoreApplicationContext context = new StoreApplicationContext();
         private Repository _repository = new Repository(context);
 
@@ -109,6 +110,6 @@ namespace StoreApp.Tests
                     Assert.True(testOrder.CheckOrderHasIDs());
                 }
             }
-        }
+        }*/
     }
 }
