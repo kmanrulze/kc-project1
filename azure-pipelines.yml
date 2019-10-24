@@ -16,6 +16,6 @@ steps:
 - script: dotnet build StoreApplication --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
-- script: dotnet test
+- script: dotnet test StoreApplication
   displayName: dotnet test
   workingDirectory: StoreApplication
