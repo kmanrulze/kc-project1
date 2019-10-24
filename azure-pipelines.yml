@@ -13,8 +13,52 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+# three different ways to solve the initial problem
+
+# - script:
+#     cd RestaurantReviews
+#     dotnet build --configuration $(buildConfiguration)
+#   displayName: 'dotnet build $(buildConfiguration)'
+
+# - script: dotnet build RestaurantReviews --configuration $(buildConfiguration)
+#   displayName: 'dotnet build $(buildConfiguration)'
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+  workingDirectory: ./StoreApplication
+
+# - script: dotnet test
+#   displayName: dotnet test
+#   workingDirectory: RestaurantReviews
+
+# a task can encapsulate some useful logic so we don't have to
+# write it all out in script step...
+# in this case, this task is both running tests and publishing the results
+# to the build itself
 - task: DotNetCoreCLI@2
+  displayName: dotnet test
   inputs:
-    command: 'build'
+    command: 'test'
     projects: './StoreApplication'
-    workingDirectory: './StoreApplication'
+    arguments: '-c $(buildConfiguration) --collect "XPlat Code Coverage"'
+
+- task: PublishCodeCoverageResults@1
+  displayName: Publish code coverage
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet publish + zip
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    zipAfterPublish: true
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Free Trial(1)(92f11ea8-1c99-4c20-a2a9-6a3aed18291d)'
+    appType: 'webApp'
+    WebAppName: 'GeneralNonsense'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
