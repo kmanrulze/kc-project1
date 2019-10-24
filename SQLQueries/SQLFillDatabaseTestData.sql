@@ -21,7 +21,7 @@ VALUES
 	('Barbarian Figurine (Blank)', 15.00),
 	('Barbarian Figurine (Painted)', 30.00),
 	('Bestiary Figurine Pack 20 ct (Blank)', 90.00),
-	('Bestiary Figurine Pack 20 ct (Painted)', 175.00);
+	('Ponyfinder: Unified Edition', 75.00);
 INSERT INTO app.Customer
 VALUES
     ('Kevin', 'McCallister', '671 Lincoln Ave', 'Winnetka', 'IL', '60093'),

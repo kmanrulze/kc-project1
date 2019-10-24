@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Project Information";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h2>Technologies Used</h2>
+    <ul>
+        <li>C#/.NET</li>
+        <li>ASP.NET MVC</li>
+        <li>Entity Framework (Database First)</li>
+        <li>Azure</li>
+        <li>SQL Database</li>
+        <li>xUnit (Testing)</li>
+    </ul>
+</div>
+<div>
+    <h2>Functional Requirements Met</h2>
+    <dl>
+        <dt>Database</dt>
+            <dd>    Persisted data</dd>
+            <dd>    3NF and diagrammed. Edited since Project 0 to include price and small Foreign key changes</dd>
+        <dt>Customers</dt>
+            <dd>    Placing orders to store locations</dd>
+            <dd>    Adding new customers</dd>
+            <dd>    Display details of an order shown</dd>
+
+        <dt>Managers and Administration</dt>
+            <dd>    Searching customers by ID ("Logging in")</dd>
+            <dd>    Searching managers by ID ("Logging in")</dd>
+            <dd>    Display order history of a location</dd>
+
+        <dt>Validaiton and Handling</dt>
+            <dd>    Client side validation (Through views)</dd>
+            <dd>    Server-side (Through Tag Helpers and other methods)</dd>
+            <dd>    Exception handling</dd>
+    </dl>
+</div>
+<div>
+    <h2>Implimented but not used in demo</h2>
+    <dl>
+        <dt>Inventory</dt>
+            <dd>    Implimented functionality to subtract from inventory. No function calls for it yet</dd>
+        <dt>Ordering</dt>
+            <dd>    Rejecting high orders is functional within the business logic objects, though is not called within here yet</dd>
+    </dl>
+</div>

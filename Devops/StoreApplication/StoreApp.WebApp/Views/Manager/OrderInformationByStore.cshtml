@@ -1,0 +1,57 @@
+﻿@model IEnumerable<StoreApp.WebApp.Models.OrderViewModel>
+
+@{
+    ViewData["Title"] = "Store Order History";
+}
+
+<h1>Store Order History</h1>
+
+<p>
+    <a asp-action="Details">Back to Store Information</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StoreNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoreNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @foreach (var items in item.Products)
+                {
+                    @items <br/>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

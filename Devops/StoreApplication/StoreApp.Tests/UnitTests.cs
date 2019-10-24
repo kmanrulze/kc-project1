@@ -25,6 +25,7 @@ namespace StoreApp.Tests
         public async Task CheckGetCustomerReturnsProperValuesAsync(int testID)
         {
 
+
             BusinessLogic.Objects.Customer testCustomer = new BusinessLogic.Objects.Customer();
 
             testCustomer = await _repository.GetCustomerByID(testID);

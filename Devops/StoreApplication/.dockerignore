@@ -1,0 +1,6 @@
+#Ignores any bin folder, object folder, pubish folder, or .vs folders
+**/bin
+**/obj
+**/publish
+**/.vs
+**/debug

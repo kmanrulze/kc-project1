@@ -1,0 +1,47 @@
+﻿@model StoreApp.WebApp.Models.CreateOrderViewModel
+
+@{
+    ViewData["Title"] = "CreateCart";
+}
+
+<h1>Create Your Cart</h1>
+
+<h4>Enter the amounts of nonsense you want from the store you've chosen!</h4>
+<hr />
+    <form asp-action="CreatedOrder">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <table class="table" style="width:100%">
+            <thead>
+                <tr>
+                    <th width="70%">
+                        Product
+                    </th>
+                    <th width="20%">
+                        Price
+                    </th>
+                    <th width="10%">
+                        Amount
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Products.Count; i++)
+                {
+                    @Html.HiddenFor(n => n.Products[i].ProductName)
+                    @Html.HiddenFor(n => n.Products[i].ProductID)
+                    <tr>
+                        <td>@Html.DisplayFor(n => n.Products[i].ProductName)</td>
+                        <td>@Html.DisplayFor(n => n.Products[i].ProductPrice)</td>
+                        <td>@Html.TextAreaFor(n => n.Products[i].ProductAmount)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+<div>
+    <a asp-controller="Customer" asp-action="Profile">Back to Profile</a>
+</div>
+
