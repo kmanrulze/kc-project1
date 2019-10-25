@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using StoreApp.BusinessLogic.Objects;
 using StoreApp.DataLibrary.Handlers;
 
@@ -11,10 +12,12 @@ namespace StoreApp.DataLibrary.Entities
     public class Repository : IRepository
     {
         private readonly StoreApplicationContext _context;
+        private readonly ILogger<Repository> _logger;
 
-        public Repository(StoreApplicationContext context)
+        public Repository(StoreApplicationContext context, ILogger<Repository> logger)
         {
             _context = context;
+            _logger = logger;
         }
         
 
@@ -36,18 +39,19 @@ namespace StoreApp.DataLibrary.Entities
                     zip = e.Zip
 
                 }
-            }).ToHashSet() ;
+            }).ToHashSet();
         }
-        public async Task AddCustomerAsync(BusinessLogic.Objects.Customer BLCustomer)
+
+        public async Task AddCustomerAsync(BusinessLogic.Objects.Customer blCustomer)
         {
             var entity = new Customer
             {
-                FirstName = BLCustomer.firstName,
-                LastName = BLCustomer.lastName,
-                Street = BLCustomer.CustomerAddress.street,
-                City = BLCustomer.CustomerAddress.city,
-                State = BLCustomer.CustomerAddress.state,
-                Zip = BLCustomer.CustomerAddress.zip
+                FirstName = blCustomer.firstName,
+                LastName = blCustomer.lastName,
+                Street = blCustomer.CustomerAddress.street,
+                City = blCustomer.CustomerAddress.city,
+                State = blCustomer.CustomerAddress.state,
+                Zip = blCustomer.CustomerAddress.zip
             };
 
             _context.Add(entity);
@@ -87,7 +91,7 @@ namespace StoreApp.DataLibrary.Entities
             }
             catch (Exception e)
             {
-                throw new Exception("Something went wrong in getting the store's information: " + e.Message);
+                throw new Exception("Something went wrong in getting the store's information", e);
             }
 
         }
@@ -113,8 +117,9 @@ namespace StoreApp.DataLibrary.Entities
                 }
                 return BLListOrders;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.LogError(e, "Exception during retrieving order information for store {storeId}", storeID);
                 throw new Exception("Failed to retrieve order information for store number: " + storeID);
             }
         }
