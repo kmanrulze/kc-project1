@@ -20,6 +20,8 @@ steps:
     organization: 'kc-revature-training'
     scannerMode: 'MSBuild'
     projectKey: 'kc-pipeline-project-test'
+    extraProperties: |
+        sonar.exclusions=**/lib/**
 
 # three different ways to solve the initial problem
 
