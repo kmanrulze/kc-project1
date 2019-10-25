@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using StoreApp.BusinessLogic.Objects;
+﻿using StoreApp.BusinessLogic.Objects;
 using StoreApp.DataLibrary.Entities;
 
 namespace StoreApp.DataLibrary.Handlers

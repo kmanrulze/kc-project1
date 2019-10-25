@@ -4,10 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StoreApp.DataLibrary.Entities;
 using StoreApp.BusinessLogic.Objects;
 using StoreApp.WebApp.Models;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace StoreApp.WebApp.Controllers
 {

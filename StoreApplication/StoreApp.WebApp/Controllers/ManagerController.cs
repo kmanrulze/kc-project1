@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RestSharp;
 using StoreApp.BusinessLogic.Objects;
 using StoreApp.WebApp.Models;
-using System.Web;
 
 namespace StoreApp.WebApp.Controllers
 {

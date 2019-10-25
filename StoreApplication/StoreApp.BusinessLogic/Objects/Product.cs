@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StoreApp.BusinessLogic.Objects
+﻿namespace StoreApp.BusinessLogic.Objects
 {
     public class Product
     {
