@@ -17,7 +17,10 @@ namespace StoreApp.WebApp.Controllers
             _repository = repository;
         }
 
-        //GET Store selected
+        /// <summary>
+        /// GET the store selected page.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult StoreSelect()
         {
             if (TempData["LoggedCustomer"] != null)
@@ -35,7 +38,11 @@ namespace StoreApp.WebApp.Controllers
 
         }
 
-        // POST: Order/Create once store is selected
+        /// <summary>
+        /// POST the order creation form once the store is selected.
+        /// </summary>
+        /// <param name="StoreID"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult StoreSelect(int StoreID)
@@ -66,7 +73,11 @@ namespace StoreApp.WebApp.Controllers
                 return View();
             }
         }
-        // GET the store and the products it has to display for an order to be created via model binding
+
+        /// <summary>
+        /// GET the store and the products it has to display for an order to be created via model binding
+        /// </summary>
+        /// <returns></returns>
         public async Task<ActionResult> CreateCart()
         {
             if (TempData["SelectedStore"] != null && TempData["LoggedCustomer"] != null)
