@@ -43,7 +43,7 @@ namespace StoreApp.BusinessLogic.Objects
             {
                 foreach(Product p in customerProductList)
                 {
-                    if (p.amount>0)
+                    if (p.Amount>0)
                     {
                         empty = false;
                         goodOrder = true;
@@ -54,7 +54,7 @@ namespace StoreApp.BusinessLogic.Objects
             }
             foreach(Product p in customerProductList)
             {
-                if (p.amount > 10)
+                if (p.Amount > 10)
                 {
                     goodOrder = false;
                 }

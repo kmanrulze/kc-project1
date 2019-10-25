@@ -129,7 +129,7 @@ namespace StoreApp.WebApp.Controllers
                     OrderID = o.orderID,
                     CustomerID = o.Customer.customerID,
                     StoreNumber = o.StoreLocation.storeNumber,
-                    Products = o.CustomerProductList.Select(p => p.name + ": " + p.amount).ToList(),
+                    Products = o.CustomerProductList.Select(p => p.name + ": " + p.Amount).ToList(),
                     CustomerName = o.Customer.firstName + " " + o.Customer.lastName
 
                 });

@@ -38,7 +38,7 @@ namespace StoreApp.DataLibrary.Handlers
             Entities.OrderProduct CTXOrdProd = new OrderProduct();
 
             CTXOrdProd.ProductTypeId = BLProd.productTypeID;
-            CTXOrdProd.ProductAmount = BLProd.amount;
+            CTXOrdProd.ProductAmount = BLProd.Amount;
             CTXOrdProd.OrderId = orderID;
 
             return CTXOrdProd;
@@ -137,7 +137,7 @@ namespace StoreApp.DataLibrary.Handlers
             BusinessLogic.Objects.Product BLProd = new BusinessLogic.Objects.Product();
 
             BLProd.productTypeID = CTXProd.ProductTypeId;
-            BLProd.amount = CTXProd.ProductAmount;
+            BLProd.Amount = CTXProd.ProductAmount;
 
             return BLProd;
         }
@@ -152,7 +152,7 @@ namespace StoreApp.DataLibrary.Handlers
             BusinessLogic.Objects.Product BLProduct = new BusinessLogic.Objects.Product();
 
             BLProduct.productTypeID = CTXProduct.ProductTypeId;
-            BLProduct.amount = CTXProduct.ProductAmount;
+            BLProduct.Amount = CTXProduct.ProductAmount;
 
             return BLProduct;
         }

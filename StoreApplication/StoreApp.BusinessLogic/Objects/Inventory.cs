@@ -23,7 +23,7 @@ namespace StoreApp.BusinessLogic.Objects
                 {
                     if (OProd.productTypeID == IProd.productTypeID)
                     {
-                        if (OProd.amount > IProd.amount)
+                        if (OProd.Amount > IProd.Amount)
                         {
                             validOrder = false;
                         }

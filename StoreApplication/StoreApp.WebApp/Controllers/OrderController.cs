@@ -83,7 +83,7 @@ namespace StoreApp.WebApp.Controllers
                     VMOrderView.Products.Add(new RequestedProducts()
                     {
                         ProductID = BLProd.productTypeID,
-                        ProductAmount = BLProd.amount,
+                        ProductAmount = BLProd.Amount,
                         ProductName = BLProd.name,
                         ProductPrice = BLProd.price
                     });
@@ -125,7 +125,7 @@ namespace StoreApp.WebApp.Controllers
                     BLOrd.CustomerProductList.Add(new Product()
                     {
                         name = item.ProductName,
-                        amount = item.ProductAmount,
+                        Amount = item.ProductAmount,
                         price = item.ProductPrice,
                         productTypeID = item.ProductID
                     });
