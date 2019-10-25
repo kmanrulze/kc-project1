@@ -115,8 +115,8 @@ namespace StoreApp.WebApp.Controllers
             Order BLOrd = new Order();
 
 
-            BLOrd.customer.customerID = CustomerID;
-            BLOrd.storeLocation.storeNumber = StoreID;
+            BLOrd.Customer.customerID = CustomerID;
+            BLOrd.StoreLocation.storeNumber = StoreID;
 
             foreach(var item in VMOrderCart.Products)
             {

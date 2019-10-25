@@ -87,7 +87,7 @@ namespace StoreApp.WebApp.Controllers
                         Zip = customer.CustomerAddress.zip,
                         CustomerOrderIDs = orders.Select(oID => oID.orderID).ToList(),
                         CustomerProduct = orders.SelectMany(op => op.CustomerProductList).ToList(),
-                        OrderStore = orders.Select(os => os.storeLocation.storeNumber).ToList(),
+                        OrderStore = orders.Select(os => os.StoreLocation.storeNumber).ToList(),
                         CustomerOrders = orders
 
                     };

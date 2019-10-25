@@ -127,10 +127,10 @@ namespace StoreApp.WebApp.Controllers
                 var viewModel = storeOrderList.Select(o => new OrderViewModel
                 {
                     OrderID = o.orderID,
-                    CustomerID = o.customer.customerID,
-                    StoreNumber = o.storeLocation.storeNumber,
+                    CustomerID = o.Customer.customerID,
+                    StoreNumber = o.StoreLocation.storeNumber,
                     Products = o.CustomerProductList.Select(p => p.name + ": " + p.amount).ToList(),
-                    CustomerName = o.customer.firstName + " " + o.customer.lastName
+                    CustomerName = o.Customer.firstName + " " + o.Customer.lastName
 
                 });
 

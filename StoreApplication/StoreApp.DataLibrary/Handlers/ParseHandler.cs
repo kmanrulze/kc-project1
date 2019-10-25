@@ -106,8 +106,8 @@ namespace StoreApp.DataLibrary.Handlers
         {
             Orders CTXOrder = new Orders();
 
-            CTXOrder.CustomerId = BLorder.customer.customerID;
-            CTXOrder.StoreNumber = BLorder.storeLocation.storeNumber;
+            CTXOrder.CustomerId = BLorder.Customer.customerID;
+            CTXOrder.StoreNumber = BLorder.StoreLocation.storeNumber;
 
             return CTXOrder;
         }
@@ -120,9 +120,9 @@ namespace StoreApp.DataLibrary.Handlers
         public static Order ContextOrderToLogicOrder(Entities.Orders CTXOrder)
         {
             BusinessLogic.Objects.Order BLOrder = new Order();
-            BLOrder.customer.customerID = CTXOrder.CustomerId;
+            BLOrder.Customer.customerID = CTXOrder.CustomerId;
             BLOrder.orderID = CTXOrder.OrderId;
-            BLOrder.storeLocation.storeNumber = CTXOrder.StoreNumber;
+            BLOrder.StoreLocation.storeNumber = CTXOrder.StoreNumber;
 
             return BLOrder;
         }

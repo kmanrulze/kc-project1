@@ -104,12 +104,12 @@ namespace StoreApp.DataLibrary.Entities
                 }
                 foreach (BusinessLogic.Objects.Order BLOrd in BLListOrders)
                 {
-                    BLOrd.storeLocation = await GetStoreInformation(BLOrd.storeLocation.storeNumber);
+                    BLOrd.StoreLocation = await GetStoreInformation(BLOrd.StoreLocation.storeNumber);
                 }
                 foreach (Order BLOrdToFill in BLListOrders)
                 {
                     BLOrdToFill.CustomerProductList = await GetOrderProductListByID(BLOrdToFill.orderID);
-                    BLOrdToFill.customer = await GetCustomerByID(BLOrdToFill.customer.customerID);
+                    BLOrdToFill.Customer = await GetCustomerByID(BLOrdToFill.Customer.customerID);
                 }
                 return BLListOrders;
             }
@@ -175,12 +175,12 @@ namespace StoreApp.DataLibrary.Entities
                 }
                 foreach (BusinessLogic.Objects.Order BLOrd in BLListOrders)
                 {
-                    BLOrd.storeLocation = await GetStoreInformation(BLOrd.storeLocation.storeNumber);
+                    BLOrd.StoreLocation = await GetStoreInformation(BLOrd.StoreLocation.storeNumber);
                 }
                 foreach (Order BLOrdToFill in BLListOrders)
                 {
                     BLOrdToFill.CustomerProductList = await GetOrderProductListByID(BLOrdToFill.orderID);
-                    BLOrdToFill.customer = await GetCustomerByID(BLOrdToFill.customer.customerID);
+                    BLOrdToFill.Customer = await GetCustomerByID(BLOrdToFill.Customer.customerID);
                 }
                 return BLListOrders;
             }
@@ -263,7 +263,7 @@ namespace StoreApp.DataLibrary.Entities
 
                 foreach (InventoryProduct CTXIP in CTXInvProdList)
                 {
-                    if (CTXIP.StoreNumber == BLOrd.storeLocation.storeNumber)
+                    if (CTXIP.StoreNumber == BLOrd.StoreLocation.storeNumber)
                     {
                         CTXInvProdList.Add(CTXIP);
                     }

@@ -4,11 +4,22 @@ namespace StoreApp.BusinessLogic.Objects
 {
     public class Order
     {
-        public Store storeLocation = new Store();
-        public Customer customer = new Customer();
+        private Store storeLocation = new Store();
+        private Customer customer = new Customer();
         private List<Product> customerProductList = new List<Product>();
         public double orderTime { get; set; }
         public int orderID { get; set; }
+
+        public Store StoreLocation
+        {
+            get { return storeLocation; }
+            set { storeLocation = value; }
+        }
+        public Customer Customer
+        {
+            get { return customer; }
+            set { customer = value; }
+        }
 
         public List<Product> CustomerProductList
         {
