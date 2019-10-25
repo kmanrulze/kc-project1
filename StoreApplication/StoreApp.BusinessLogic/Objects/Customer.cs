@@ -5,8 +5,15 @@
 
         public string firstName { get; set; }
         public string lastName { get; set; }
-        public Address customerAddress = new Address();
         public int customerID { get; set; }
+
+        private Address customerAddress = new Address();
+
+        public Address CustomerAddress
+        {
+            get { return customerAddress; }
+            set { customerAddress = value; }
+        }
 
         public bool CheckCustomerNotNull()
         {

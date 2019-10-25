@@ -6,7 +6,13 @@ namespace StoreApp.BusinessLogic.Objects
     public class Inventory
     {
 
-        public List<Product> productData = new List<Product>();
+        private List<Product> productData = new List<Product>();
+
+        public List<Product> ProductData
+        {
+            get { return productData;}
+            set { productData = value; }
+        }
 
         public bool CheckOrderAgainstInventory(List<Product> OrderList)
         {

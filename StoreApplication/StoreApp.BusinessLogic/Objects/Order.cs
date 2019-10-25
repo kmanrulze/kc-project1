@@ -6,9 +6,16 @@ namespace StoreApp.BusinessLogic.Objects
     {
         public Store storeLocation = new Store();
         public Customer customer = new Customer();
-        public List<Product> customerProductList = new List<Product>();
+        private List<Product> customerProductList = new List<Product>();
         public double orderTime { get; set; }
         public int orderID { get; set; }
+
+        public List<Product> CustomerProductList
+        {
+            get { return customerProductList; }
+            set { customerProductList = value; }
+        }
+
 
         public bool CheckOrderIsValid()
         {

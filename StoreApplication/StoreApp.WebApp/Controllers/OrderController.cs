@@ -122,7 +122,7 @@ namespace StoreApp.WebApp.Controllers
             {
                 if (item.ProductAmount != 0)
                 {
-                    BLOrd.customerProductList.Add(new Product()
+                    BLOrd.CustomerProductList.Add(new Product()
                     {
                         name = item.ProductName,
                         amount = item.ProductAmount,
@@ -131,7 +131,7 @@ namespace StoreApp.WebApp.Controllers
                     });
                 }
             }
-            if (BLOrd.customerProductList.Count() == 0)
+            if (BLOrd.CustomerProductList.Count() == 0)
             {
                 //invalid order
             }

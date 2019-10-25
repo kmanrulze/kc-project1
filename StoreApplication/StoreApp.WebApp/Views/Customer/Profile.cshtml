@@ -84,7 +84,7 @@
                             @Html.DisplayFor(modelItem => item.storeLocation.storeNumber)
                         </td>
                         <td>
-                            @foreach (var items in item.customerProductList)
+                            @foreach (var items in item.CustomerProductList)
                             {
                                 @(items.name + ": " + items.amount)<br />
                             }

@@ -75,10 +75,10 @@ namespace StoreApp.WebApp.Controllers
                         LastName = retrievedManager.lastName,
                         StoreID = retrievedStore.storeNumber,
                         ManagerID = retrievedManager.managerID,
-                        StoreStreet = retrievedStore.address.street,
-                        StoreCity = retrievedStore.address.city,
-                        StoreState = retrievedStore.address.state,
-                        StoreZip = retrievedStore.address.zip
+                        StoreStreet = retrievedStore.Address.street,
+                        StoreCity = retrievedStore.Address.city,
+                        StoreState = retrievedStore.Address.state,
+                        StoreZip = retrievedStore.Address.zip
                     };
                     TempData["LoggedStore"] = retrievedStore.storeNumber;
 
@@ -129,7 +129,7 @@ namespace StoreApp.WebApp.Controllers
                     OrderID = o.orderID,
                     CustomerID = o.customer.customerID,
                     StoreNumber = o.storeLocation.storeNumber,
-                    Products = o.customerProductList.Select(p => p.name + ": " + p.amount).ToList(),
+                    Products = o.CustomerProductList.Select(p => p.name + ": " + p.amount).ToList(),
                     CustomerName = o.customer.firstName + " " + o.customer.lastName
 
                 });

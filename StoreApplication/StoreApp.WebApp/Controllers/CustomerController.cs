@@ -81,12 +81,12 @@ namespace StoreApp.WebApp.Controllers
                         CustomerID = customer.customerID,
                         FirstName = customer.firstName,
                         LastName = customer.lastName,
-                        Street = customer.customerAddress.street,
-                        City = customer.customerAddress.city,
-                        State = customer.customerAddress.state,
-                        Zip = customer.customerAddress.zip,
+                        Street = customer.CustomerAddress.street,
+                        City = customer.CustomerAddress.city,
+                        State = customer.CustomerAddress.state,
+                        Zip = customer.CustomerAddress.zip,
                         CustomerOrderIDs = orders.Select(oID => oID.orderID).ToList(),
-                        CustomerProduct = orders.SelectMany(op => op.customerProductList).ToList(),
+                        CustomerProduct = orders.SelectMany(op => op.CustomerProductList).ToList(),
                         OrderStore = orders.Select(os => os.storeLocation.storeNumber).ToList(),
                         CustomerOrders = orders
 
@@ -129,7 +129,7 @@ namespace StoreApp.WebApp.Controllers
                 {
                     firstName = VMCustomer.FirstName,
                     lastName = VMCustomer.LastName,
-                    customerAddress = new Address
+                    CustomerAddress = new Address
                     {
                         street = VMCustomer.Street,
                         city = VMCustomer.City,

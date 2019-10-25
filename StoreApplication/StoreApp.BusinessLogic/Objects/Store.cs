@@ -2,8 +2,20 @@
 {
     public class Store
     {
-        public Address address = new Address();
-        public Inventory storeInventory = new Inventory();
+        private Address address = new Address();
+        private Inventory storeInventory = new Inventory();
+
+        public Address Address
+        {
+            get { return address; }
+            set { address = value; }
+        }
+        public Inventory StoreInventory
+        {
+            get { return storeInventory; }
+            set { storeInventory = value; }
+        }
+
         public int storeNumber { get; set; }
         public bool CheckInventory(Store locationBeingChecked, Order order)
         {

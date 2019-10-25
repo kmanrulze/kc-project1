@@ -14,10 +14,10 @@ namespace StoreApp.DataLibrary.Handlers
         {
             StoreApp.BusinessLogic.Objects.Customer BLCustomer = new BusinessLogic.Objects.Customer();
 
-            BLCustomer.customerAddress.street = CTXCustomer.Street;
-            BLCustomer.customerAddress.city = CTXCustomer.City;
-            BLCustomer.customerAddress.state = CTXCustomer.State;
-            BLCustomer.customerAddress.zip = CTXCustomer.Zip;
+            BLCustomer.CustomerAddress.street = CTXCustomer.Street;
+            BLCustomer.CustomerAddress.city = CTXCustomer.City;
+            BLCustomer.CustomerAddress.state = CTXCustomer.State;
+            BLCustomer.CustomerAddress.zip = CTXCustomer.Zip;
 
             BLCustomer.customerID = CTXCustomer.CustomerId;
             BLCustomer.firstName = CTXCustomer.FirstName;
@@ -72,10 +72,10 @@ namespace StoreApp.DataLibrary.Handlers
 
             CTXCustomer.FirstName = BLCustomer.firstName;
             CTXCustomer.LastName = BLCustomer.lastName;
-            CTXCustomer.Street = BLCustomer.customerAddress.street;
-            CTXCustomer.City = BLCustomer.customerAddress.city;
-            CTXCustomer.State = BLCustomer.customerAddress.state;
-            CTXCustomer.Zip = BLCustomer.customerAddress.zip;
+            CTXCustomer.Street = BLCustomer.CustomerAddress.street;
+            CTXCustomer.City = BLCustomer.CustomerAddress.city;
+            CTXCustomer.State = BLCustomer.CustomerAddress.state;
+            CTXCustomer.Zip = BLCustomer.CustomerAddress.zip;
 
             return CTXCustomer;
         }
@@ -88,10 +88,10 @@ namespace StoreApp.DataLibrary.Handlers
         {
             StoreApp.BusinessLogic.Objects.Store BLStore = new BusinessLogic.Objects.Store();
 
-            BLStore.address.street = CTXStore.Street;
-            BLStore.address.city = CTXStore.City;
-            BLStore.address.state = CTXStore.State;
-            BLStore.address.zip = CTXStore.Zip;
+            BLStore.Address.street = CTXStore.Street;
+            BLStore.Address.city = CTXStore.City;
+            BLStore.Address.state = CTXStore.State;
+            BLStore.Address.zip = CTXStore.Zip;
 
             BLStore.storeNumber = CTXStore.StoreNumber;
 

@@ -28,7 +28,7 @@ namespace StoreApp.DataLibrary.Entities
                 firstName = e.FirstName,
                 lastName = e.LastName,
                 customerID = e.CustomerId,
-                customerAddress = new Address
+                CustomerAddress = new Address
                 {
                     street = e.Street,
                     city = e.City,
@@ -44,10 +44,10 @@ namespace StoreApp.DataLibrary.Entities
             {
                 FirstName = BLCustomer.firstName,
                 LastName = BLCustomer.lastName,
-                Street = BLCustomer.customerAddress.street,
-                City = BLCustomer.customerAddress.city,
-                State = BLCustomer.customerAddress.state,
-                Zip = BLCustomer.customerAddress.zip
+                Street = BLCustomer.CustomerAddress.street,
+                City = BLCustomer.CustomerAddress.city,
+                State = BLCustomer.CustomerAddress.state,
+                Zip = BLCustomer.CustomerAddress.zip
             };
 
             _context.Add(entity);
@@ -108,7 +108,7 @@ namespace StoreApp.DataLibrary.Entities
                 }
                 foreach (Order BLOrdToFill in BLListOrders)
                 {
-                    BLOrdToFill.customerProductList = await GetOrderProductListByID(BLOrdToFill.orderID);
+                    BLOrdToFill.CustomerProductList = await GetOrderProductListByID(BLOrdToFill.orderID);
                     BLOrdToFill.customer = await GetCustomerByID(BLOrdToFill.customer.customerID);
                 }
                 return BLListOrders;
@@ -179,7 +179,7 @@ namespace StoreApp.DataLibrary.Entities
                 }
                 foreach (Order BLOrdToFill in BLListOrders)
                 {
-                    BLOrdToFill.customerProductList = await GetOrderProductListByID(BLOrdToFill.orderID);
+                    BLOrdToFill.CustomerProductList = await GetOrderProductListByID(BLOrdToFill.orderID);
                     BLOrdToFill.customer = await GetCustomerByID(BLOrdToFill.customer.customerID);
                 }
                 return BLListOrders;
@@ -237,7 +237,7 @@ namespace StoreApp.DataLibrary.Entities
                 int newOrderID = BLNewOrder.orderID;
                 //BLNewOrder.storeLocation = await GetStoreInformation(BLNewOrder.storeLocation.storeNumber);
 
-                foreach (BusinessLogic.Objects.Product BLProd in BLOrd.customerProductList)
+                foreach (BusinessLogic.Objects.Product BLProd in BLOrd.CustomerProductList)
                 {
                     _context.OrderProduct.Add(ParseHandler.LogicProductToContextOrderProduct(newOrderID, BLProd));
                 }
